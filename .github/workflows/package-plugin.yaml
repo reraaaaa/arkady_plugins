@@ -41,12 +41,16 @@ jobs:
 
       # Reuses the CLI binary arkady-plugin-daemon's own publish-cli.yaml
       # already builds and releases -- no need to build Go here at all.
+      # `gh release download` (no tag) resolves via the "latest release" API,
+      # which skips prereleases entirely -- fetch the newest release
+      # (prerelease or not) explicitly instead.
       - name: Download arkady CLI
         env:
           GH_TOKEN: ${{ secrets.ARKADY_PLUGIN_DAEMON_PAT }}
         run: |
-          gh release download --repo reraaaaa/arkady-plugin-daemon \
-            --pattern "arkady-plugin-linux-amd64" -O arkady-cli
+          ASSET_URL=$(gh api repos/reraaaaa/arkady-plugin-daemon/releases \
+            --jq '.[0].assets[] | select(.name=="arkady-plugin-linux-amd64") | .url')
+          gh api "$ASSET_URL" -H "Accept: application/octet-stream" > arkady-cli
           chmod +x arkady-cli
 
       - name: Package plugin
