@@ -1,0 +1,31 @@
+version: 0.0.5
+type: plugin
+author: cyberai-vector
+name: cyberai-vector
+label:
+  en_US: CyberAI Vector
+description:
+  en_US: Поиск и RAG-ответы по НПА РФ (ИБ) и лучшим практикам ИБ из CyberAI Vector
+icon: icon.svg
+icon_dark: icon-dark.svg
+resource:
+  memory: 268435456
+  permission:
+    tool:
+      enabled: true
+plugins:
+  tools:
+    - provider/cyberai-vector.yaml
+meta:
+  version: 0.0.5
+  arch:
+    - amd64
+    - arm64
+  runner:
+    language: python
+    version: "3.12"
+    entrypoint: main
+  minimum_dify_version: null
+created_at: 2026-08-09T22:04:42.322795+03:00
+privacy: PRIVACY.md
+verified: false

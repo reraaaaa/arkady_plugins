@@ -1,0 +1,26 @@
+identity:
+  author: "cyberai-vector"
+  name: "cyberai-vector"
+  label:
+    en_US: "CyberAI Vector"
+  description:
+    en_US: "Поиск и RAG-ответы по НПА РФ (ИБ) и лучшим практикам ИБ из CyberAI Vector"
+  icon: "icon.svg"
+
+credentials_for_provider:
+  base_url:
+    type: text-input
+    required: true
+    label:
+      en_US: "Base URL"
+    placeholder:
+      en_US: "http://host.docker.internal:8001"
+    help:
+      en_US: "Адрес сервиса CyberAI Vector (api.py) — локально http://host.docker.internal:8001, в проде http://10.198.96.180:8001. Без завершающего слэша."
+
+tools:
+  - tools/search_npa.yaml
+  - tools/search_bestpractices.yaml
+extra:
+  python:
+    source: provider/cyberai-vector.py

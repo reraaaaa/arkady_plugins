@@ -1,0 +1,32 @@
+identity:
+  name: "search_bestpractices"
+  author: "cyberai-vector"
+  label:
+    en_US: "Search IB best practices"
+description:
+  human:
+    en_US: "Поиск по библиотеке лучших практик ИБ (ISO/IEC 27002 и подборка практик) — коллекция bestpractices, отдельная от НПА."
+  llm: "Ищет по библиотеке лучших мировых практик информационной безопасности (ISO/IEC 27002 и т.п.) — это НЕ норма права РФ, а рекомендательная практика. Используй как дополнение к search_npa, когда вопрос про общепринятые практики/стандарты, а не про российское законодательство. Всегда явно помечай в ответе, что это практика, а не требование закона."
+parameters:
+  - name: query
+    type: string
+    required: true
+    label:
+      en_US: "Query"
+    human_description:
+      en_US: "Поисковый запрос на русском"
+    llm_description: "Тема или вопрос о практике ИБ (например: 'управление доступом привилегированных пользователей')."
+    form: llm
+  - name: top_k
+    type: number
+    required: false
+    default: 6
+    label:
+      en_US: "Top K"
+    human_description:
+      en_US: "Сколько фрагментов вернуть (по умолчанию 6)"
+    llm_description: "Количество результатов, обычно 3-8."
+    form: llm
+extra:
+  python:
+    source: tools/search_bestpractices.py
