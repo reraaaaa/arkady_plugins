@@ -1,0 +1,29 @@
+[project]
+name = "arkady-openai-api-compatible"
+version = "0.1.0"
+description = "Model providers compatible with OpenAI's API standard (LM Studio, vLLM, llama.cpp, etc.)"
+readme = "README.md"
+requires-python = ">=3.12"
+
+# Refresh the lockfile with: uv lock
+dependencies = [
+    "arkady_plugin>=0.10.0",
+    "httpx>=0.28.1",
+    "openai>=2.38.0",
+    "requests>=2.34.2",
+    "setuptools>=83.0.0",
+    "tiktoken>=0.13.0",
+    # Pin below the bleeding-edge latest release: brand-new PyPI releases can
+    # lag behind on some CDN edges for a while, causing "no version found"
+    # errors on install even though pypi.org already lists them.
+    "pydantic-settings<2.15.0",
+]
+
+# uv run black . -C -l 100
+# uv run ruff check --fix
+[dependency-groups]
+dev = [
+    "black>=26.5.1",
+    "pytest>=9.0.3",
+    "ruff>=0.15.14",
+]
