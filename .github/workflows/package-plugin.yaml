@@ -28,6 +28,9 @@ jobs:
             exit 1
           fi
 
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+
       - name: Locate plugin directory
         id: locate
         run: |
@@ -44,15 +47,6 @@ jobs:
       # `gh release download` (no tag) resolves via the "latest release" API,
       # which skips prereleases entirely -- fetch the newest release
       # (prerelease or not) explicitly instead.
-      - name: Diagnose PAT access (temporary)
-        env:
-          GH_TOKEN: ${{ secrets.ARKADY_PLUGIN_DAEMON_PAT }}
-        run: |
-          echo "--- repo visible to this token? ---"
-          gh api repos/reraaaaa/arkady-plugin-daemon --jq '.full_name' || echo "FAILED: $?"
-          echo "--- releases visible? ---"
-          gh api repos/reraaaaa/arkady-plugin-daemon/releases --jq 'length' || echo "FAILED: $?"
-
       - name: Download arkady CLI
         env:
           GH_TOKEN: ${{ secrets.ARKADY_PLUGIN_DAEMON_PAT }}
