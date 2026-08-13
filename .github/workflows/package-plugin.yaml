@@ -1,0 +1,74 @@
+name: Package and Sign Plugin
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Tags are <plugin_name>-v<version>, e.g. qa_chunk-v0.0.13 ->
+      # plugin_name=qa_chunk, version=0.0.13
+      - name: Parse plugin name and version from tag
+        id: parse
+        run: |
+          TAG="${{ github.event.release.tag_name }}"
+          if [[ "$TAG" =~ ^(.+)-v([0-9].*)$ ]]; then
+            echo "plugin_name=${BASH_REMATCH[1]}" >> "$GITHUB_OUTPUT"
+            echo "version=${BASH_REMATCH[2]}" >> "$GITHUB_OUTPUT"
+          else
+            echo "Tag '$TAG' doesn't match <plugin_name>-v<version>" >&2
+            exit 1
+          fi
+
+      - name: Locate plugin directory
+        id: locate
+        run: |
+          PLUGIN_NAME="${{ steps.parse.outputs.plugin_name }}"
+          DIR=$(find . -mindepth 2 -maxdepth 2 -type d -name "$PLUGIN_NAME" | head -1)
+          if [ -z "$DIR" ]; then
+            echo "No directory found for plugin '$PLUGIN_NAME'" >&2
+            exit 1
+          fi
+          echo "dir=$DIR" >> "$GITHUB_OUTPUT"
+
+      # Reuses the CLI binary arkady-plugin-daemon's own publish-cli.yaml
+      # already builds and releases -- no need to build Go here at all.
+      - name: Download arkady CLI
+        env:
+          GH_TOKEN: ${{ secrets.ARKADY_PLUGIN_DAEMON_PAT }}
+        run: |
+          gh release download --repo reraaaaa/arkady-plugin-daemon \
+            --pattern "arkady-plugin-linux-amd64" -O arkady-cli
+          chmod +x arkady-cli
+
+      - name: Package plugin
+        id: package
+        run: |
+          PACKAGE_NAME="${{ steps.parse.outputs.plugin_name }}-${{ steps.parse.outputs.version }}.arkadypkg"
+          ./arkady-cli plugin package "${{ steps.locate.outputs.dir }}" -o "$PACKAGE_NAME"
+          echo "package_name=$PACKAGE_NAME" >> "$GITHUB_OUTPUT"
+
+      - name: Sign plugin
+        run: |
+          umask 077
+          printf '%s\n' "${{ secrets.ARKADY_PLUGIN_SIGNING_KEY }}" > "$RUNNER_TEMP/signing_key.pem"
+          ./arkady-cli signature sign "${{ steps.package.outputs.package_name }}" \
+            -p "$RUNNER_TEMP/signing_key.pem" \
+            -c arkady
+          rm -f "$RUNNER_TEMP/signing_key.pem"
+
+      - name: Upload signed package to release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PACKAGE_NAME="${{ steps.package.outputs.package_name }}"
+          SIGNED_NAME="${PACKAGE_NAME%.arkadypkg}.signed.arkadypkg"
+          gh release upload "${{ github.event.release.tag_name }}" "$SIGNED_NAME" --clobber
