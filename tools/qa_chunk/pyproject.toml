@@ -1,0 +1,15 @@
+[project]
+name = "arkady-qa-chunk"
+version = "0.0.13"
+description = "QA chunking tool plugin for Arkady"
+readme = "README.md"
+requires-python = ">=3.12"
+
+dependencies = [
+    "arkady-plugin>=0.10.3,<0.11.0",
+    "pandas>=3.0.3",
+]
+
+# uv run black . -C -l 100 && uv run ruff check --fix
+[dependency-groups]
+dev = []
