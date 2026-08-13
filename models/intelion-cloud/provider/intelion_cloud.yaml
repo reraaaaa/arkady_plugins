@@ -1,0 +1,86 @@
+background: '#FFF8F5'
+configurate_methods:
+  - predefined-model
+  - customizable-model
+description:
+  en_US: Claude models via Intelion Cloud — Anthropic-compatible gateway used by CyberAI_Vector.
+  ru_RU: Модели Claude через Intelion Cloud — Anthropic-совместимый шлюз, используемый в CyberAI_Vector.
+extra:
+  python:
+    model_sources:
+      - models/llm/llm.py
+    provider_source: provider/intelion_cloud.py
+help:
+  title:
+    en_US: Get your API Key from Intelion Cloud
+    ru_RU: Получите API Key в Intelion Cloud
+  url:
+    en_US: https://aiapi.intelion.cloud
+icon_large:
+  en_US: icon_l_en.png
+icon_small:
+  en_US: icon_s_en.svg
+label:
+  en_US: Intelion Cloud
+  ru_RU: Intelion Cloud
+model_credential_schema:
+  model:
+    label:
+      en_US: Model Name
+      ru_RU: Название модели
+    placeholder:
+      en_US: Enter your model name
+      ru_RU: Введите название модели
+  credential_form_schemas:
+    # ВНИМАНИЕ: имена переменных (anthropic_api_key/anthropic_api_url) оставлены
+    # как в оригинальном anthropic-плагине НАМЕРЕННО — models/llm/llm.py их
+    # читает именно под этими ключами, а сама логика (кастомный base_url,
+    # спуфинг User-Agent для не-anthropic.com шлюзов) не менялась ни на строку.
+    - label:
+        en_US: API Key
+        ru_RU: API-ключ
+      placeholder:
+        en_US: Enter your Intelion Cloud API Key
+        ru_RU: Введите API-ключ Intelion Cloud (ic-...)
+      required: true
+      type: secret-input
+      variable: anthropic_api_key
+    - label:
+        en_US: API URL
+        ru_RU: API URL
+      placeholder:
+        en_US: Enter your API URL
+        ru_RU: Введите API URL
+      default: https://aiapi.intelion.cloud/anthropic
+      required: false
+      type: text-input
+      variable: anthropic_api_url
+models:
+  llm:
+    position: models/llm/_position.yaml
+    predefined:
+      - models/llm/*.yaml
+provider: intelion_cloud
+provider_credential_schema:
+  credential_form_schemas:
+    - label:
+        en_US: API Key
+        ru_RU: API-ключ
+      placeholder:
+        en_US: Enter your Intelion Cloud API Key
+        ru_RU: Введите API-ключ Intelion Cloud (ic-...)
+      required: true
+      type: secret-input
+      variable: anthropic_api_key
+    - label:
+        en_US: API URL
+        ru_RU: API URL
+      placeholder:
+        en_US: Enter your API URL
+        ru_RU: Введите API URL
+      default: https://aiapi.intelion.cloud/anthropic
+      required: false
+      type: text-input
+      variable: anthropic_api_url
+supported_model_types:
+  - llm
