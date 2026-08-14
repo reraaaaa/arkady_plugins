@@ -1,0 +1,43 @@
+identity:
+  name: "mermaid_converter"
+  author: "alexmultiagent"
+  label:
+    en_US: "Mermaid to Image"
+    zh_Hans: "Mermaid 转图片"
+
+description:
+  human:
+    en_US: "Render a Mermaid diagram code block to a PNG image via the Mermaid Ink API."
+    zh_Hans: "将 Mermaid 图表代码渲染为 PNG 图片。"
+  llm: >
+    Render Mermaid diagram syntax to a PNG image. Supports all Mermaid diagram types
+    (flowchart, sequence, class, state, Gantt, pie, etc.). Returns a PNG blob.
+    Use when the user wants to visualize a Mermaid diagram.
+
+parameters:
+  - name: mermaid_code
+    type: string
+    required: true
+    label:
+      en_US: "Mermaid Code"
+      zh_Hans: "Mermaid 代码"
+    human_description:
+      en_US: "The Mermaid diagram syntax (e.g., 'graph TD; A-->B'). Code block fences optional."
+      zh_Hans: "Mermaid 图表语法（如 'graph TD; A-->B'）。代码块围栏可选。"
+    llm_description: "The mermaid diagram code to render as an image"
+    form: llm
+
+  - name: mermaid_api_url
+    type: string
+    required: false
+    label:
+      en_US: "Mermaid API URL"
+      zh_Hans: "Mermaid API 地址"
+    human_description:
+      en_US: "Custom Mermaid Ink API base URL. Leave empty for the public https://mermaid.ink."
+      zh_Hans: "自定义 Mermaid Ink API 地址。留空使用公共 https://mermaid.ink。"
+    form: form
+
+extra:
+  python:
+    source: src/mermaid_converter.py

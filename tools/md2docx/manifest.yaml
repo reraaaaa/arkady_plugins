@@ -1,0 +1,67 @@
+version: "0.0.1"
+type: plugin
+author: "arkady"
+name: "md2docx"
+created_at: "2026-06-02T00:00:00.000000Z"
+repo: "https://github.com/reraaaaa/arkady_plugins"
+tags:
+  - "utilities"
+  - "productivity"
+
+label:
+  en_US: "md2docx"
+  zh_Hans: "md2docx"
+
+description:
+  en_US: >
+    Convert Markdown to polished DOCX with built-in Chinese/English templates.
+    Supports technical document, business report, official document, academic paper, and thesis style presets,
+    Mermaid diagram rendering, and fine-grained font/margin/spacing control.
+  zh_Hans: >
+    将 Markdown 转换为精美 DOCX 文档，内置中英文模板。
+    支持技术文档、商业报告、公务公文、学术论文、学位论文五种样式预设，
+    Mermaid 图表渲染，以及字体/页边距/行距的精细控制。
+
+icon: "icon.svg"
+
+resource:
+  memory: 536870912
+  permission:
+    tool:
+      enabled: true
+    model:
+      enabled: false
+    node:
+      enabled: false
+    endpoint:
+      enabled: false
+    app:
+      enabled: false
+    storage:
+      enabled: true
+      size: 104857600
+
+plugins:
+  tools:
+    - "provider/md2docx.yaml"
+
+meta:
+  version: "0.0.1"
+  arch:
+    - "amd64"
+    - "arm64"
+  runner:
+    language: "python"
+    version: "3.12"
+    entrypoint: "main"
+  minimum_dify_version: "1.14.0"
+
+privacy: "./PRIVACY.md"
+
+# ── Package & network notes ──────────────────────────────────────────────────
+# Approx .difypkg size: ~230 KB. The Pandoc binary is **bundled** inside the
+# `pypandoc-binary` pip wheel and extracted into the plugin venv at install
+# time — there is NO runtime download from GitHub or any other host.
+# No outbound network access is required for Pandoc itself. Only Mermaid
+# preprocessing (when `mermaid_enabled: true`) calls https://mermaid.ink.
+# See PRIVACY.md and README.md for details.

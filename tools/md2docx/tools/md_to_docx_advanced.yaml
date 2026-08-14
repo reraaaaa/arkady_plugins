@@ -1,0 +1,297 @@
+identity:
+  name: "md_to_docx_advanced"
+  author: "alexmultiagent"
+  label:
+    en_US: "Markdown to DOCX (Advanced)"
+    zh_Hans: "Markdown 转 DOCX（高级）"
+
+description:
+  human:
+    en_US: "Fine-grained style overrides for the MD2Docx converter: fonts, sizes, line spacing, and page margins."
+    zh_Hans: "MD2Docx 转换器的高级样式覆盖：字体、字号、行距和页边距。"
+  llm: >
+    Apply fine-grained font, size, spacing, and margin overrides to the Markdown-to-DOCX conversion.
+    All parameters default to the selected style profile preset.
+    Use only when the user explicitly requests specific font sizes, margins, or heading styles.
+
+parameters:
+  - name: markdown_content
+    type: string
+    required: true
+    label:
+      en_US: "Markdown Content"
+      zh_Hans: "Markdown 内容"
+    human_description:
+      en_US: "The Markdown text to convert (max 5 MB). Also set a style_profile below."
+      zh_Hans: "要转换的 Markdown 文本（最大 5MB）。同时设置下方的样式预设。"
+    llm_description: "The full markdown text content to be converted to a docx document"
+    form: llm
+
+  - name: style_profile
+    type: select
+    required: false
+    default: "academic"
+    options:
+      - value: "technical"
+        label:
+          en_US: "Technical Document"
+          zh_Hans: "技术文档"
+      - value: "business"
+        label:
+          en_US: "Business Report"
+          zh_Hans: "商业报告"
+      - value: "official"
+        label:
+          en_US: "Official"
+          zh_Hans: "公务公文 (GB/T 9704)"
+      - value: "academic"
+        label:
+          en_US: "Academic Paper"
+          zh_Hans: "学术论文"
+      - value: "thesis"
+        label:
+          en_US: "Thesis (GB/T 7713)"
+          zh_Hans: "学位论文 (GB/T 7713)"
+      - value: "gost"
+        label:
+          en_US: "GOST R 7.0.97-2016 (RU)"
+          zh_Hans: "俄罗斯国标 GOST R 7.0.97-2016"
+      - value: "template"
+        label:
+          en_US: "Template Only (no overrides)"
+          zh_Hans: "仅模板（无样式覆盖）"
+    label:
+      en_US: "Style Profile"
+      zh_Hans: "样式预设"
+    human_description:
+      en_US: "Base style profile. Override individual settings below."
+      zh_Hans: "基础样式预设。下方参数可逐个覆盖。"
+    form: form
+
+  - name: title
+    type: string
+    required: false
+    label:
+      en_US: "Document Title"
+      zh_Hans: "文档标题"
+    human_description:
+      en_US: "Title for the output DOCX file. Defaults to 'Document'."
+      zh_Hans: "输出 DOCX 文件的标题。默认为 'Document'。"
+    llm_description: "The title or filename for the output document"
+    form: llm
+
+  - name: reference_language
+    type: select
+    required: false
+    default: "auto"
+    options:
+      - value: "auto"
+        label:
+          en_US: "Auto-detect"
+          zh_Hans: "自动检测"
+      - value: "english"
+        label:
+          en_US: "English"
+          zh_Hans: "英文"
+      - value: "chinese"
+        label:
+          en_US: "Chinese"
+          zh_Hans: "中文"
+    label:
+      en_US: "Reference Language"
+      zh_Hans: "模板语言"
+    human_description:
+      en_US: "Template language. Auto-detect by default."
+      zh_Hans: "模板语言。默认自动检测。"
+    form: form
+
+  - name: mermaid_enabled
+    type: boolean
+    required: false
+    default: true
+    label:
+      en_US: "Render Mermaid Diagrams"
+      zh_Hans: "渲染 Mermaid 图表"
+    human_description:
+      en_US: "Render ```mermaid blocks to images. Disable for offline use."
+      zh_Hans: "渲染 ```mermaid 代码块为图片。离线时可关闭。"
+    form: form
+
+  - name: mermaid_api_url
+    type: string
+    required: false
+    label:
+      en_US: "Mermaid API URL"
+      zh_Hans: "Mermaid API 地址"
+    human_description:
+      en_US: "Self-hosted Mermaid Ink URL. Leave empty for the public service."
+      zh_Hans: "自部署 Mermaid Ink 地址。留空使用公共服务。"
+    form: form
+
+  - name: include_toc
+    type: boolean
+    required: false
+    default: false
+    label:
+      en_US: "Auto Table of Contents"
+      zh_Hans: "自动目录"
+    human_description:
+      en_US: "Insert a Word auto-updating Table of Contents field (headings levels 1-3) at the start of the document."
+      zh_Hans: "在文档开头插入 Word 自动更新目录字段（1-3 级标题）。"
+    form: form
+
+  - name: body_font
+    type: string
+    required: false
+    label:
+      en_US: "Body Font"
+      zh_Hans: "正文字体"
+    human_description:
+      en_US: "Override body text font. Leave empty to use profile default."
+      zh_Hans: "覆盖正文字体。留空使用预设默认值。"
+    form: form
+
+  - name: body_size_pt
+    type: number
+    required: false
+    label:
+      en_US: "Body Font Size (pt)"
+      zh_Hans: "正文字号 (pt)"
+    human_description:
+      en_US: "Override body font size in points. Set 0 to use profile default."
+      zh_Hans: "覆盖正文字号。设 0 使用预设默认值。"
+    default: 0
+    form: form
+
+  - name: line_spacing
+    type: number
+    required: false
+    label:
+      en_US: "Line Spacing"
+      zh_Hans: "行距"
+    human_description:
+      en_US: "Line spacing multiplier (e.g., 1.0, 1.25, 1.5, 2.0). Set 0 to use profile default."
+      zh_Hans: "行距倍数（如 1.0、1.25、1.5、2.0）。设 0 使用预设默认值。"
+    default: 0
+    form: form
+
+  - name: margin_top_mm
+    type: number
+    required: false
+    label:
+      en_US: "Top Margin (mm)"
+      zh_Hans: "上边距 (mm)"
+    human_description:
+      en_US: "Top page margin in millimeters. Set 0 for default."
+      zh_Hans: "上边距，单位毫米。设 0 使用默认值。"
+    default: 0
+    form: form
+
+  - name: margin_bottom_mm
+    type: number
+    required: false
+    label:
+      en_US: "Bottom Margin (mm)"
+      zh_Hans: "下边距 (mm)"
+    human_description:
+      en_US: "Bottom page margin in millimeters. Set 0 for default."
+      zh_Hans: "下边距，单位毫米。设 0 使用默认值。"
+    default: 0
+    form: form
+
+  - name: margin_left_mm
+    type: number
+    required: false
+    label:
+      en_US: "Left Margin (mm)"
+      zh_Hans: "左边距 (mm)"
+    human_description:
+      en_US: "Left page margin in millimeters. Set 0 for default."
+      zh_Hans: "左边距，单位毫米。设 0 使用默认值。"
+    default: 0
+    form: form
+
+  - name: margin_right_mm
+    type: number
+    required: false
+    label:
+      en_US: "Right Margin (mm)"
+      zh_Hans: "右边距 (mm)"
+    human_description:
+      en_US: "Right page margin in millimeters. Set 0 for default."
+      zh_Hans: "右边距，单位毫米。设 0 使用默认值。"
+    default: 0
+    form: form
+
+  - name: heading1_font
+    type: string
+    required: false
+    label:
+      en_US: "Heading 1 Font"
+      zh_Hans: "一级标题字体"
+    human_description:
+      en_US: "Override heading 1 font. Leave empty to use profile default."
+      zh_Hans: "覆盖一级标题字体。留空使用预设默认值。"
+    form: form
+
+  - name: heading1_size_pt
+    type: number
+    required: false
+    label:
+      en_US: "Heading 1 Size (pt)"
+      zh_Hans: "一级标题字号 (pt)"
+    human_description:
+      en_US: "Override heading 1 font size in points. Set 0 to use profile default."
+      zh_Hans: "覆盖一级标题字号。设 0 使用预设默认值。"
+    default: 0
+    form: form
+
+  - name: heading2_font
+    type: string
+    required: false
+    label:
+      en_US: "Heading 2 Font"
+      zh_Hans: "二级标题字体"
+    human_description:
+      en_US: "Override heading 2 font. Leave empty to use profile default."
+      zh_Hans: "覆盖二级标题字体。留空使用预设默认值。"
+    form: form
+
+  - name: heading2_size_pt
+    type: number
+    required: false
+    label:
+      en_US: "Heading 2 Size (pt)"
+      zh_Hans: "二级标题字号 (pt)"
+    human_description:
+      en_US: "Override heading 2 font size in points. Set 0 to use profile default."
+      zh_Hans: "覆盖二级标题字号。设 0 使用预设默认值。"
+    default: 0
+    form: form
+
+  - name: heading3_font
+    type: string
+    required: false
+    label:
+      en_US: "Heading 3 Font"
+      zh_Hans: "三级标题字体"
+    human_description:
+      en_US: "Override heading 3 font. Leave empty to use profile default."
+      zh_Hans: "覆盖三级标题字体。留空使用预设默认值。"
+    form: form
+
+  - name: heading3_size_pt
+    type: number
+    required: false
+    label:
+      en_US: "Heading 3 Size (pt)"
+      zh_Hans: "三级标题字号 (pt)"
+    human_description:
+      en_US: "Override heading 3 font size in points. Set 0 to use profile default."
+      zh_Hans: "覆盖三级标题字号。设 0 使用预设默认值。"
+    default: 0
+    form: form
+
+extra:
+  python:
+    source: src/md2docx.py

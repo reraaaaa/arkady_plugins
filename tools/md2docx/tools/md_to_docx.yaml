@@ -1,0 +1,145 @@
+identity:
+  name: "md_to_docx"
+  author: "alexmultiagent"
+  label:
+    en_US: "Markdown to DOCX"
+    zh_Hans: "Markdown 转 DOCX"
+
+description:
+  human:
+    en_US: "Convert Markdown text to a Microsoft Word DOCX document with style presets, templates, and Mermaid rendering."
+    zh_Hans: "将 Markdown 文本转换为 Word DOCX 文档，支持样式预设、模板和 Mermaid 渲染。"
+  llm: >
+    Convert Markdown text to a formatted Microsoft Word DOCX document. Supports style profiles (academic/thesis/technical/business/official/template),
+    automatic Chinese/English language detection, Mermaid diagram rendering to images, and fine-grained control over fonts, sizes, spacing, and margins.
+    Use when the user requests a Word document export from Markdown content.
+
+parameters:
+  - name: markdown_content
+    type: string
+    required: true
+    label:
+      en_US: "Markdown Content"
+      zh_Hans: "Markdown 内容"
+    human_description:
+      en_US: "The Markdown text to convert (max 5 MB; supports GFM syntax, Mermaid code blocks, tables, and images)."
+      zh_Hans: "要转换的 Markdown 文本（最大 5MB；支持 GFM 语法、Mermaid 代码块、表格和图片）。"
+    llm_description: "The full markdown text content to be converted to a docx document"
+    form: llm
+
+  - name: title
+    type: string
+    required: false
+    label:
+      en_US: "Document Title"
+      zh_Hans: "文档标题"
+    human_description:
+      en_US: "Title for the output DOCX file (without .docx extension). Defaults to 'Document'."
+      zh_Hans: "输出 DOCX 文件的标题（不含 .docx 扩展名）。默认为 'Document'。"
+    llm_description: "The title or filename for the output document, used as the filename"
+    form: llm
+
+  - name: style_profile
+    type: select
+    required: false
+    default: "academic"
+    options:
+      - value: "technical"
+        label:
+          en_US: "Technical Document"
+          zh_Hans: "技术文档"
+      - value: "business"
+        label:
+          en_US: "Business Report"
+          zh_Hans: "商业报告"
+      - value: "official"
+        label:
+          en_US: "Official"
+          zh_Hans: "公务公文 (GB/T 9704)"
+      - value: "academic"
+        label:
+          en_US: "Academic Paper"
+          zh_Hans: "学术论文"
+      - value: "thesis"
+        label:
+          en_US: "Thesis (GB/T 7713)"
+          zh_Hans: "学位论文 (GB/T 7713)"
+      - value: "gost"
+        label:
+          en_US: "GOST R 7.0.97-2016 (RU)"
+          zh_Hans: "俄罗斯国标 GOST R 7.0.97-2016"
+      - value: "template"
+        label:
+          en_US: "Template Only (no overrides)"
+          zh_Hans: "仅模板（无样式覆盖）"
+    label:
+      en_US: "Style Profile"
+      zh_Hans: "样式预设"
+    human_description:
+      en_US: "Document style preset with font, size, and spacing defaults."
+      zh_Hans: "文档样式预设，包含字体、字号和行距默认值。"
+    form: form
+
+  - name: reference_language
+    type: select
+    required: false
+    default: "auto"
+    options:
+      - value: "auto"
+        label:
+          en_US: "Auto-detect"
+          zh_Hans: "自动检测"
+      - value: "english"
+        label:
+          en_US: "English"
+          zh_Hans: "英文"
+      - value: "chinese"
+        label:
+          en_US: "Chinese"
+          zh_Hans: "中文"
+    label:
+      en_US: "Reference Language"
+      zh_Hans: "模板语言"
+    human_description:
+      en_US: "Template language. Auto-detect samples the first 20K characters to determine Chinese vs English."
+      zh_Hans: "模板语言。自动检测会采样前 20000 个字符判断中文还是英文。"
+    form: form
+
+  - name: mermaid_enabled
+    type: boolean
+    required: false
+    default: true
+    label:
+      en_US: "Render Mermaid Diagrams"
+      zh_Hans: "渲染 Mermaid 图表"
+    human_description:
+      en_US: "When enabled, ```mermaid code blocks are rendered to images via the public Mermaid Ink API. Disable for offline use or privacy."
+      zh_Hans: "启用后，```mermaid 代码块会通过 Mermaid Ink API 渲染为图片。离线或注重隐私时可关闭。"
+    form: form
+
+  - name: mermaid_api_url
+    type: string
+    required: false
+    label:
+      en_US: "Mermaid API URL"
+      zh_Hans: "Mermaid API 地址"
+    human_description:
+      en_US: "Custom Mermaid Ink API base URL for self-hosted instances. Leave empty to use the public https://mermaid.ink service."
+      zh_Hans: "自定义 Mermaid Ink API 地址，用于自部署实例。留空则使用公共 https://mermaid.ink 服务。"
+    form: form
+
+  - name: include_toc
+    type: boolean
+    required: false
+    default: false
+    label:
+      en_US: "Auto Table of Contents"
+      zh_Hans: "自动目录"
+    human_description:
+      en_US: "Insert a Word auto-updating Table of Contents field (headings levels 1-3) at the start of the document."
+      zh_Hans: "在文档开头插入 Word 自动更新目录字段（1-3 级标题）。"
+    form: form
+
+extra:
+  python:
+    source: src/md2docx.py
