@@ -1,0 +1,43 @@
+identity:
+  name: document_extractor
+  author: arkady
+  label:
+    en_US: Document Extractor
+    zh_Hans: 文档提取器
+    pt_BR: Document Extractor
+description:
+  human:
+    en_US: Document Extractor
+    zh_Hans: Document Extractor
+    pt_BR: Document Extractor
+  llm: Document Extractor
+parameters:
+  - name: file
+    type: file
+    required: true
+    label:
+      en_US: file
+      zh_Hans: file
+      pt_BR: file
+    human_description:
+      en_US: the file to parse (supports pdf, xls, xlsx, md, markdown, mdx, htm, html, pptx, docx, csv, json, yaml, yml, and plain text)
+      zh_Hans: 用于解析的文件 (支持 pdf, xls, xlsx, md, markdown, mdx, htm, html, pptx, docx, csv, json, yaml, yml 和纯文本)
+      pt_BR: o arquivo a ser analisado (suporta pdf, xls, xlsx, md, markdown, mdx, htm, html, pptx, docx, csv, json, yaml, yml e texto simples)
+    llm_description: the file to parse (supports PDF, Office, Markdown, HTML, CSV, JSON, YAML, and plain text files)
+    form: llm
+output_schema:
+    type: object
+    properties:
+      documents:
+        type: array
+        items:
+          type: object
+        description: the documents extracted from the file
+      images:
+        type: array
+        items:
+          type: object
+        description: The images extracted from the file
+extra:
+  python:
+    source: tools/document_extractor.py

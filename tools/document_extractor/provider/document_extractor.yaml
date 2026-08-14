@@ -1,0 +1,19 @@
+identity:
+  author: arkady
+  name: document_extractor
+  label:
+    en_US: Document Extractor
+    zh_Hans: 文档提取器
+    pt_BR: Document Extractor
+  description:
+    en_US: Document Extractor
+    zh_Hans: Document Extractor
+    pt_BR: Document Extractor
+  icon: icon.svg
+  tags:
+    - rag
+tools:
+  - tools/document_extractor.yaml
+extra:
+  python:
+    source: provider/document_extractor.py
