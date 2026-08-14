@@ -1,0 +1,16 @@
+[project]
+name = "arkady-general-chunker"
+version = "0.0.13"
+description = "General text chunking tool"
+readme = "README.md"
+requires-python = ">=3.12"
+
+dependencies = [
+    "arkady-plugin>=0.10.3,<0.11.0",
+    "tiktoken>=0.13.0",
+    "transformers>=5.9.0",
+]
+
+# uv run black . -C -l 100 && uv run ruff check --fix
+[dependency-groups]
+dev = []
