@@ -1,14 +1,16 @@
 identity:
   name: "md_to_docx_advanced"
-  author: "alexmultiagent"
+  author: "arkady"
   label:
     en_US: "Markdown to DOCX (Advanced)"
     zh_Hans: "Markdown 转 DOCX（高级）"
+    ru_RU: "Markdown в DOCX (расширенный)"
 
 description:
   human:
     en_US: "Fine-grained style overrides for the MD2Docx converter: fonts, sizes, line spacing, and page margins."
     zh_Hans: "MD2Docx 转换器的高级样式覆盖：字体、字号、行距和页边距。"
+    ru_RU: "Точная настройка стиля для конвертера MD2Docx: шрифты, кегли, межстрочный интервал и поля страницы."
   llm: >
     Apply fine-grained font, size, spacing, and margin overrides to the Markdown-to-DOCX conversion.
     All parameters default to the selected style profile preset.
@@ -21,9 +23,11 @@ parameters:
     label:
       en_US: "Markdown Content"
       zh_Hans: "Markdown 内容"
+      ru_RU: "Текст в Markdown"
     human_description:
       en_US: "The Markdown text to convert (max 5 MB). Also set a style_profile below."
       zh_Hans: "要转换的 Markdown 文本（最大 5MB）。同时设置下方的样式预设。"
+      ru_RU: "Markdown-текст для конвертации (до 5 МБ). Ниже также укажи стиль оформления (style_profile)."
     llm_description: "The full markdown text content to be converted to a docx document"
     form: llm
 
@@ -36,36 +40,45 @@ parameters:
         label:
           en_US: "Technical Document"
           zh_Hans: "技术文档"
+          ru_RU: "Техническая документация"
       - value: "business"
         label:
           en_US: "Business Report"
           zh_Hans: "商业报告"
+          ru_RU: "Деловой отчёт"
       - value: "official"
         label:
           en_US: "Official"
           zh_Hans: "公务公文 (GB/T 9704)"
+          ru_RU: "Официальный документ (GB/T 9704)"
       - value: "academic"
         label:
           en_US: "Academic Paper"
           zh_Hans: "学术论文"
+          ru_RU: "Научная статья"
       - value: "thesis"
         label:
           en_US: "Thesis (GB/T 7713)"
           zh_Hans: "学位论文 (GB/T 7713)"
+          ru_RU: "Диссертация (GB/T 7713)"
       - value: "gost"
         label:
           en_US: "GOST R 7.0.97-2016 (RU)"
           zh_Hans: "俄罗斯国标 GOST R 7.0.97-2016"
+          ru_RU: "ГОСТ Р 7.0.97-2016"
       - value: "template"
         label:
           en_US: "Template Only (no overrides)"
           zh_Hans: "仅模板（无样式覆盖）"
+          ru_RU: "Только шаблон (без переопределения стилей)"
     label:
       en_US: "Style Profile"
       zh_Hans: "样式预设"
+      ru_RU: "Стиль оформления"
     human_description:
       en_US: "Base style profile. Override individual settings below."
       zh_Hans: "基础样式预设。下方参数可逐个覆盖。"
+      ru_RU: "Базовый стиль оформления. Отдельные параметры ниже можно переопределить."
     form: form
 
   - name: title
@@ -74,9 +87,11 @@ parameters:
     label:
       en_US: "Document Title"
       zh_Hans: "文档标题"
+      ru_RU: "Название документа"
     human_description:
       en_US: "Title for the output DOCX file. Defaults to 'Document'."
       zh_Hans: "输出 DOCX 文件的标题。默认为 'Document'。"
+      ru_RU: "Заголовок итогового DOCX-файла. По умолчанию — 'Document'."
     llm_description: "The title or filename for the output document"
     form: llm
 
@@ -89,20 +104,25 @@ parameters:
         label:
           en_US: "Auto-detect"
           zh_Hans: "自动检测"
+          ru_RU: "Определить автоматически"
       - value: "english"
         label:
           en_US: "English"
           zh_Hans: "英文"
+          ru_RU: "Английский"
       - value: "chinese"
         label:
           en_US: "Chinese"
           zh_Hans: "中文"
+          ru_RU: "Китайский"
     label:
       en_US: "Reference Language"
       zh_Hans: "模板语言"
+      ru_RU: "Язык шаблона"
     human_description:
       en_US: "Template language. Auto-detect by default."
       zh_Hans: "模板语言。默认自动检测。"
+      ru_RU: "Язык шаблона. По умолчанию — автоопределение."
     form: form
 
   - name: mermaid_enabled
@@ -112,9 +132,11 @@ parameters:
     label:
       en_US: "Render Mermaid Diagrams"
       zh_Hans: "渲染 Mermaid 图表"
+      ru_RU: "Рендерить диаграммы Mermaid"
     human_description:
       en_US: "Render ```mermaid blocks to images. Disable for offline use."
       zh_Hans: "渲染 ```mermaid 代码块为图片。离线时可关闭。"
+      ru_RU: "Рендерить блоки ```mermaid в картинки. Отключи для офлайн-режима."
     form: form
 
   - name: mermaid_api_url
@@ -123,9 +145,11 @@ parameters:
     label:
       en_US: "Mermaid API URL"
       zh_Hans: "Mermaid API 地址"
+      ru_RU: "URL Mermaid API"
     human_description:
       en_US: "Self-hosted Mermaid Ink URL. Leave empty for the public service."
       zh_Hans: "自部署 Mermaid Ink 地址。留空使用公共服务。"
+      ru_RU: "Адрес собственного (self-hosted) Mermaid Ink. Оставь пустым для публичного сервиса."
     form: form
 
   - name: include_toc
@@ -135,9 +159,11 @@ parameters:
     label:
       en_US: "Auto Table of Contents"
       zh_Hans: "自动目录"
+      ru_RU: "Автооглавление"
     human_description:
       en_US: "Insert a Word auto-updating Table of Contents field (headings levels 1-3) at the start of the document."
       zh_Hans: "在文档开头插入 Word 自动更新目录字段（1-3 级标题）。"
+      ru_RU: "Вставить в начало документа автообновляемое поле оглавления Word (заголовки уровней 1-3)."
     form: form
 
   - name: body_font
@@ -146,9 +172,11 @@ parameters:
     label:
       en_US: "Body Font"
       zh_Hans: "正文字体"
+      ru_RU: "Шрифт основного текста"
     human_description:
       en_US: "Override body text font. Leave empty to use profile default."
       zh_Hans: "覆盖正文字体。留空使用预设默认值。"
+      ru_RU: "Переопределить шрифт основного текста. Оставь пустым для значения из профиля."
     form: form
 
   - name: body_size_pt
@@ -157,9 +185,11 @@ parameters:
     label:
       en_US: "Body Font Size (pt)"
       zh_Hans: "正文字号 (pt)"
+      ru_RU: "Кегль основного текста (pt)"
     human_description:
       en_US: "Override body font size in points. Set 0 to use profile default."
       zh_Hans: "覆盖正文字号。设 0 使用预设默认值。"
+      ru_RU: "Переопределить кегль основного текста (в пунктах). 0 — значение из профиля."
     default: 0
     form: form
 
@@ -169,9 +199,11 @@ parameters:
     label:
       en_US: "Line Spacing"
       zh_Hans: "行距"
+      ru_RU: "Межстрочный интервал"
     human_description:
       en_US: "Line spacing multiplier (e.g., 1.0, 1.25, 1.5, 2.0). Set 0 to use profile default."
       zh_Hans: "行距倍数（如 1.0、1.25、1.5、2.0）。设 0 使用预设默认值。"
+      ru_RU: "Множитель межстрочного интервала (например, 1.0, 1.25, 1.5, 2.0). 0 — значение из профиля."
     default: 0
     form: form
 
@@ -181,9 +213,11 @@ parameters:
     label:
       en_US: "Top Margin (mm)"
       zh_Hans: "上边距 (mm)"
+      ru_RU: "Верхнее поле (мм)"
     human_description:
       en_US: "Top page margin in millimeters. Set 0 for default."
       zh_Hans: "上边距，单位毫米。设 0 使用默认值。"
+      ru_RU: "Верхнее поле страницы в миллиметрах. 0 — значение по умолчанию."
     default: 0
     form: form
 
@@ -193,9 +227,11 @@ parameters:
     label:
       en_US: "Bottom Margin (mm)"
       zh_Hans: "下边距 (mm)"
+      ru_RU: "Нижнее поле (мм)"
     human_description:
       en_US: "Bottom page margin in millimeters. Set 0 for default."
       zh_Hans: "下边距，单位毫米。设 0 使用默认值。"
+      ru_RU: "Нижнее поле страницы в миллиметрах. 0 — значение по умолчанию."
     default: 0
     form: form
 
@@ -205,9 +241,11 @@ parameters:
     label:
       en_US: "Left Margin (mm)"
       zh_Hans: "左边距 (mm)"
+      ru_RU: "Левое поле (мм)"
     human_description:
       en_US: "Left page margin in millimeters. Set 0 for default."
       zh_Hans: "左边距，单位毫米。设 0 使用默认值。"
+      ru_RU: "Левое поле страницы в миллиметрах. 0 — значение по умолчанию."
     default: 0
     form: form
 
@@ -217,9 +255,11 @@ parameters:
     label:
       en_US: "Right Margin (mm)"
       zh_Hans: "右边距 (mm)"
+      ru_RU: "Правое поле (мм)"
     human_description:
       en_US: "Right page margin in millimeters. Set 0 for default."
       zh_Hans: "右边距，单位毫米。设 0 使用默认值。"
+      ru_RU: "Правое поле страницы в миллиметрах. 0 — значение по умолчанию."
     default: 0
     form: form
 
@@ -229,9 +269,11 @@ parameters:
     label:
       en_US: "Heading 1 Font"
       zh_Hans: "一级标题字体"
+      ru_RU: "Шрифт заголовка 1 уровня"
     human_description:
       en_US: "Override heading 1 font. Leave empty to use profile default."
       zh_Hans: "覆盖一级标题字体。留空使用预设默认值。"
+      ru_RU: "Переопределить шрифт заголовка 1 уровня. Оставь пустым для значения из профиля."
     form: form
 
   - name: heading1_size_pt
@@ -240,9 +282,11 @@ parameters:
     label:
       en_US: "Heading 1 Size (pt)"
       zh_Hans: "一级标题字号 (pt)"
+      ru_RU: "Кегль заголовка 1 уровня (pt)"
     human_description:
       en_US: "Override heading 1 font size in points. Set 0 to use profile default."
       zh_Hans: "覆盖一级标题字号。设 0 使用预设默认值。"
+      ru_RU: "Переопределить кегль заголовка 1 уровня. 0 — значение из профиля."
     default: 0
     form: form
 
@@ -252,9 +296,11 @@ parameters:
     label:
       en_US: "Heading 2 Font"
       zh_Hans: "二级标题字体"
+      ru_RU: "Шрифт заголовка 2 уровня"
     human_description:
       en_US: "Override heading 2 font. Leave empty to use profile default."
       zh_Hans: "覆盖二级标题字体。留空使用预设默认值。"
+      ru_RU: "Переопределить шрифт заголовка 2 уровня. Оставь пустым для значения из профиля."
     form: form
 
   - name: heading2_size_pt
@@ -263,9 +309,11 @@ parameters:
     label:
       en_US: "Heading 2 Size (pt)"
       zh_Hans: "二级标题字号 (pt)"
+      ru_RU: "Кегль заголовка 2 уровня (pt)"
     human_description:
       en_US: "Override heading 2 font size in points. Set 0 to use profile default."
       zh_Hans: "覆盖二级标题字号。设 0 使用预设默认值。"
+      ru_RU: "Переопределить кегль заголовка 2 уровня. 0 — значение из профиля."
     default: 0
     form: form
 
@@ -275,9 +323,11 @@ parameters:
     label:
       en_US: "Heading 3 Font"
       zh_Hans: "三级标题字体"
+      ru_RU: "Шрифт заголовка 3 уровня"
     human_description:
       en_US: "Override heading 3 font. Leave empty to use profile default."
       zh_Hans: "覆盖三级标题字体。留空使用预设默认值。"
+      ru_RU: "Переопределить шрифт заголовка 3 уровня. Оставь пустым для значения из профиля."
     form: form
 
   - name: heading3_size_pt
@@ -286,9 +336,11 @@ parameters:
     label:
       en_US: "Heading 3 Size (pt)"
       zh_Hans: "三级标题字号 (pt)"
+      ru_RU: "Кегль заголовка 3 уровня (pt)"
     human_description:
       en_US: "Override heading 3 font size in points. Set 0 to use profile default."
       zh_Hans: "覆盖三级标题字号。设 0 使用预设默认值。"
+      ru_RU: "Переопределить кегль заголовка 3 уровня. 0 — значение из профиля."
     default: 0
     form: form
 

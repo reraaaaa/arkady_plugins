@@ -1,4 +1,4 @@
-version: "0.0.1"
+version: "0.0.2"
 type: plugin
 author: "arkady"
 name: "md2docx"
@@ -11,16 +11,22 @@ tags:
 label:
   en_US: "md2docx"
   zh_Hans: "md2docx"
+  ru_RU: "md2docx"
 
 description:
   en_US: >
-    Convert Markdown to polished DOCX with built-in Chinese/English templates.
-    Supports technical document, business report, official document, academic paper, and thesis style presets,
-    Mermaid diagram rendering, and fine-grained font/margin/spacing control.
+    Convert Markdown to polished DOCX with built-in style templates.
+    Supports technical document, business report, official document, academic paper, thesis, and
+    GOST R 7.0.97-2016 style presets, Mermaid diagram rendering, and fine-grained font/margin/spacing control.
   zh_Hans: >
     将 Markdown 转换为精美 DOCX 文档，内置中英文模板。
     支持技术文档、商业报告、公务公文、学术论文、学位论文五种样式预设，
     Mermaid 图表渲染，以及字体/页边距/行距的精细控制。
+  ru_RU: >
+    Конвертирует Markdown в оформленный DOCX-документ по встроенным шаблонам стилей.
+    Пресеты: техническая документация, деловой отчёт, официальный документ, научная статья,
+    диссертация, а также ГОСТ Р 7.0.97-2016. Рендеринг диаграмм Mermaid, точная настройка
+    шрифтов/полей/интервалов.
 
 icon: "icon.svg"
 
@@ -46,7 +52,7 @@ plugins:
     - "provider/md2docx.yaml"
 
 meta:
-  version: "0.0.1"
+  version: "0.0.2"
   arch:
     - "amd64"
     - "arm64"

@@ -8,9 +8,11 @@ identity:
   label:
     en_US: "md2docx"
     zh_Hans: "md2docx"
+    ru_RU: "md2docx"
   description:
     en_US: "Convert Markdown to polished DOCX with templates, Mermaid, and style presets."
     zh_Hans: "将 Markdown 转换为精美 DOCX，支持模板、Mermaid 和样式预设。"
+    ru_RU: "Конвертирует Markdown в оформленный DOCX-документ: шаблоны, Mermaid-диаграммы, готовые стили оформления."
   tags:
     - "utilities"
     - "productivity"
