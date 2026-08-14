@@ -458,6 +458,8 @@ def build_pandoc_metadata(
     body_font: Optional[str],
     body_size_pt: Optional[float],
     line_spacing: Optional[float],
+    document_title: Optional[str] = None,
+    subtitle: Optional[str] = None,
 ) -> dict[str, str]:
     """Build the pandoc --metadata dict, layering profile defaults + user overrides."""
     metadata = dict(PROFILE_METADATA.get(style_profile, {}))
@@ -469,6 +471,13 @@ def build_pandoc_metadata(
         metadata["fontsize"] = f"{body_size_pt}pt"
     if line_spacing:
         metadata["linestretch"] = str(line_spacing)
+    # Pandoc's docx writer renders a title page (paragraphs styled "Title" /
+    # "Subtitle", both present in the reference-doc's built-in styles) only
+    # when this metadata is set — no markdown syntax needed for it.
+    if document_title and document_title.strip():
+        metadata["title"] = document_title.strip()
+    if subtitle and subtitle.strip():
+        metadata["subtitle"] = subtitle.strip()
 
     return {k: v for k, v in metadata.items() if v}
 
@@ -833,11 +842,14 @@ class Md2DocxTool(Tool):
                 return
 
             stage = "validation"
-            title = sanitize_filename(parameters.get("title") or "Document")
+            raw_title = parameters.get("title") or "Document"
+            title = sanitize_filename(raw_title)
             style_profile = normalize_profile(parameters.get("style_profile"))
             language_setting = parameters.get("reference_language", "auto")
             mermaid_enabled = _coerce_bool(parameters.get("mermaid_enabled", True))
             include_toc = _coerce_bool(parameters.get("include_toc", False))
+            include_title_page = _coerce_bool(parameters.get("include_title_page", False))
+            subtitle = parameters.get("subtitle") or ""
 
             # Resolve language
             stage = "language_detection"
@@ -900,6 +912,8 @@ class Md2DocxTool(Tool):
                 parameters.get("body_font"),
                 parse_pt(parameters.get("body_size_pt")),
                 parse_spacing(parameters.get("line_spacing")),
+                document_title=raw_title if include_title_page else None,
+                subtitle=subtitle if include_title_page else None,
             )
 
             # Convert via pandoc

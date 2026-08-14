@@ -166,6 +166,33 @@ parameters:
       ru_RU: "Вставить в начало документа автообновляемое поле оглавления Word (заголовки уровней 1-3)."
     form: form
 
+  - name: include_title_page
+    type: boolean
+    required: false
+    default: false
+    label:
+      en_US: "Title Page"
+      zh_Hans: "标题页"
+      ru_RU: "Титульная страница"
+    human_description:
+      en_US: "Add a title page (uses the Title parameter above as the document title, plus optional Subtitle)."
+      zh_Hans: "添加标题页（使用上方的 Title 参数作为文档标题，可选 Subtitle）。"
+      ru_RU: "Добавить титульную страницу (заголовок берётся из параметра Title выше, плюс необязательный подзаголовок)."
+    form: form
+
+  - name: subtitle
+    type: string
+    required: false
+    label:
+      en_US: "Subtitle"
+      zh_Hans: "副标题"
+      ru_RU: "Подзаголовок"
+    human_description:
+      en_US: "Optional line shown under the title on the title page (e.g. a city/date stamp). Only used when Title Page is enabled."
+      zh_Hans: "标题页上显示在标题下方的可选文字（如城市/日期）。仅在启用标题页时生效。"
+      ru_RU: "Необязательная строка под заголовком на титульной странице (например, город/год). Работает только вместе с Титульной страницей."
+    form: form
+
   - name: body_font
     type: string
     required: false

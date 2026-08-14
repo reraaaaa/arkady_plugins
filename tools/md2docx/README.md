@@ -47,21 +47,28 @@ from the reference document, so this isn't a style-override parameter.
 
 ## Parameters
 
-### Markdown to DOCX (7)
+### Markdown to DOCX (9)
 
 | #   | Parameter            | Type    | Required | Default      | Description                                                |
 | --- | --------------------- | ------- | -------- | ------------ | ------------------------------------------------------------ |
 | 1   | `markdown_content`    | string  | yes      | —            | The Markdown text (max 5 MB; GFM + footnotes, tables, images, Mermaid) |
-| 2   | `title`               | string  | no       | `"Document"` | Output filename without `.docx`                              |
+| 2   | `title`               | string  | no       | `"Document"` | Output filename without `.docx`; also the title-page heading when Title Page is enabled |
 | 3   | `style_profile`       | select  | no       | `academic`   | Style preset (see table above)                                |
 | 4   | `reference_language`  | select  | no       | `auto`       | `auto` / `english` / `chinese`                                |
 | 5   | `include_toc`         | boolean | no       | `false`      | Insert an auto-updating Word Table of Contents field           |
-| 6   | `mermaid_enabled`     | boolean | no       | `true`       | Render Mermaid blocks to images                                |
-| 7   | `mermaid_api_url`     | string  | no       | —            | Self-hosted Mermaid Ink URL                                    |
+| 6   | `include_title_page`  | boolean | no       | `false`      | Add a title page (Title style = `title` param, Subtitle style = `subtitle` param) |
+| 7   | `subtitle`            | string  | no       | —            | Line under the title on the title page (e.g. a city/date stamp); only used with Title Page |
+| 8   | `mermaid_enabled`     | boolean | no       | `true`       | Render Mermaid blocks to images                                |
+| 9   | `mermaid_api_url`     | string  | no       | —            | Self-hosted Mermaid Ink URL                                    |
+
+`gost` also carries multilevel heading auto-numbering (Heading 1 = "1.", Heading 2 =
+"1.1.", Heading 3 = "1.1.1."), baked into `reference_gost.docx`'s styles — Pandoc
+copies the style definitions (including their numbering link) from the reference
+document, so numbered headings need no special markdown syntax either.
 
 ### Markdown to DOCX (Advanced)
 
-All 7 core parameters above plus 13 style overrides: `body_font`, `body_size_pt`,
+All 9 core parameters above plus 13 style overrides: `body_font`, `body_size_pt`,
 `line_spacing`, `margin_top_mm`, `margin_bottom_mm`, `margin_left_mm`, `margin_right_mm`,
 `heading1_font`, `heading1_size_pt`, `heading2_font`, `heading2_size_pt`, `heading3_font`,
 `heading3_size_pt`. All default to profile preset or `0` (= use default).
