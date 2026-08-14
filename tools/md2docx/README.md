@@ -66,6 +66,10 @@ from the reference document, so this isn't a style-override parameter.
 copies the style definitions (including their numbering link) from the reference
 document, so numbered headings need no special markdown syntax either.
 
+When `include_title_page` or `include_toc` is set, a real Word page break is
+inserted automatically right after the title/subtitle/TOC block, before chapter 1
+— otherwise Pandoc runs everything onto the same page.
+
 ### Markdown to DOCX (Advanced)
 
 All 9 core parameters above plus 13 style overrides: `body_font`, `body_size_pt`,

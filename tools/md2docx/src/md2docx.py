@@ -503,6 +503,13 @@ def _map_pandoc_error(message: str) -> str:
     return f"Pandoc conversion failed: {message}"
 
 
+# A raw OOXML block (needs the `raw_attribute` extension on the *reader*
+# side) is the only reliable way to force a real Word page break from
+# Pandoc markdown — the LaTeX `\newpage` command is silently left as literal
+# text by the docx writer, it isn't converted at all.
+_OOXML_PAGE_BREAK = '\n\n```{=openxml}\n<w:p><w:r><w:br w:type="page"/></w:r></w:p>\n```\n\n'
+
+
 def convert_via_pandoc(
     markdown_text: str,
     reference_docx: str,
@@ -511,6 +518,7 @@ def convert_via_pandoc(
     metadata: dict[str, str],
     include_toc: bool = False,
     toc_depth: int = 3,
+    page_break_after_front_matter: bool = False,
 ) -> io.BytesIO:
     """Run pandoc to convert markdown to DOCX. Returns BytesIO of the docx content.
 
@@ -520,11 +528,21 @@ def convert_via_pandoc(
     """
     _ensure_pandoc()
 
+    if page_break_after_front_matter:
+        # Pandoc auto-inserts the --toc block (and the title/subtitle from
+        # --metadata) *before* the body content regardless of where this
+        # marker sits in markdown_text, so prepending it here lands the
+        # break right after title+TOC, separating them from chapter 1 —
+        # confirmed by inspecting the generated document.xml byte offsets.
+        markdown_text = _OOXML_PAGE_BREAK + markdown_text
+
     # `+footnotes` enables Pandoc's Markdown footnote syntax ([^1] / [^1]: ...)
     # on top of GFM — without it, footnote markers pass through as literal
     # text instead of becoming real Word footnotes. GFM alone doesn't include
     # this extension (it's Pandoc's own Markdown dialect feature, not GitHub's).
-    pandoc_format = "gfm+footnotes+raw_html"
+    # `+raw_attribute` enables the ```{=openxml} ... ``` raw-block syntax used
+    # above for page breaks.
+    pandoc_format = "gfm+footnotes+raw_html+raw_attribute"
 
     # Combine reference-docx dir and mermaid temp dir in resource-path
     resource_path = source_dir
@@ -922,6 +940,7 @@ class Md2DocxTool(Tool):
             docx_io = convert_via_pandoc(
                 processed_md, reference_docx, source_dir, mermaid_dir, metadata,
                 include_toc=include_toc,
+                page_break_after_front_matter=include_title_page or include_toc,
             )
 
             # Apply style overrides
