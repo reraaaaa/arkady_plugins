@@ -458,10 +458,17 @@ def build_pandoc_metadata(
     body_font: Optional[str],
     body_size_pt: Optional[float],
     line_spacing: Optional[float],
-    document_title: Optional[str] = None,
-    subtitle: Optional[str] = None,
 ) -> dict[str, str]:
-    """Build the pandoc --metadata dict, layering profile defaults + user overrides."""
+    """Build the pandoc --metadata dict, layering profile defaults + user overrides.
+
+    Deliberately does NOT set `--metadata title=` — Pandoc's docx writer uses
+    that solely to decide *where* an auto `--toc` gets inserted (always
+    before any body content when title metadata is absent, confirmed by
+    inspecting document.xml byte offsets), and title-page text is instead
+    built explicitly via custom-style Divs (see `build_title_page_markdown`)
+    so it can use an exact reference document's own title-page styles
+    instead of Pandoc's generic built-in "Title"/"Subtitle" styles.
+    """
     metadata = dict(PROFILE_METADATA.get(style_profile, {}))
 
     if body_font and body_font.strip():
@@ -471,13 +478,6 @@ def build_pandoc_metadata(
         metadata["fontsize"] = f"{body_size_pt}pt"
     if line_spacing:
         metadata["linestretch"] = str(line_spacing)
-    # Pandoc's docx writer renders a title page (paragraphs styled "Title" /
-    # "Subtitle", both present in the reference-doc's built-in styles) only
-    # when this metadata is set — no markdown syntax needed for it.
-    if document_title and document_title.strip():
-        metadata["title"] = document_title.strip()
-    if subtitle and subtitle.strip():
-        metadata["subtitle"] = subtitle.strip()
 
     return {k: v for k, v in metadata.items() if v}
 
@@ -509,6 +509,51 @@ def _map_pandoc_error(message: str) -> str:
 # text by the docx writer, it isn't converted at all.
 _OOXML_PAGE_BREAK = '\n\n```{=openxml}\n<w:p><w:r><w:br w:type="page"/></w:r></w:p>\n```\n\n'
 
+# Hand-built Word TOC field (same OOXML Pandoc's own `--toc` flag generates —
+# extracted from a real Pandoc-produced document.xml as a template). Built
+# manually instead of relying on `--toc` because `--toc` always inserts
+# *before any body content*, landing before a title page built from
+# custom-style Divs (title metadata only "anchors" the TOC insertion point
+# when using Pandoc's own --metadata title=, which we deliberately don't use
+# — see build_pandoc_metadata). This version is positioned exactly where we
+# put it in the markdown, giving predictable ordering regardless of whether
+# a title page precedes it.
+_OOXML_TOC_HEADING = "Содержание"
+_OOXML_TOC_FIELD = (
+    '\n\n```{=openxml}\n'
+    '<w:sdt><w:sdtPr><w:docPartObj><w:docPartGallery w:val="Table of Contents"/><w:docPartUnique/></w:docPartObj></w:sdtPr>'
+    '<w:sdtContent>'
+    f'<w:p><w:pPr><w:pStyle w:val="TOCHeading"/></w:pPr><w:r><w:t xml:space="preserve">{_OOXML_TOC_HEADING}</w:t></w:r></w:p>'
+    '<w:p><w:r><w:fldChar w:fldCharType="begin" w:dirty="true"/>'
+    '<w:instrText xml:space="preserve">TOC \\o "1-3" \\h \\z \\u</w:instrText>'
+    '<w:fldChar w:fldCharType="separate"/><w:fldChar w:fldCharType="end"/></w:r></w:p>'
+    '</w:sdtContent></w:sdt>\n```\n\n'
+)
+
+
+def build_front_matter_markdown(
+    title: Optional[str],
+    subtitle: Optional[str],
+    include_title_page: bool,
+    include_toc: bool,
+) -> str:
+    """Build the title-page + TOC markdown prepended before the body.
+
+    Title/subtitle use custom-style Divs (`::: {custom-style="..."}`, needs
+    the `fenced_divs` reader extension) pointing at style names copied
+    verbatim from a real reference document's own title page, instead of
+    Pandoc's generic built-in "Title"/"Subtitle" styles — so a `gost`-style
+    reference-doc can carry the exact look of a real corporate template.
+    """
+    parts: list[str] = []
+    if include_title_page and title and title.strip():
+        parts.append(f'::: {{custom-style="2_Название документа"}}\n{title.strip()}\n:::')
+        if subtitle and subtitle.strip():
+            parts.append(f'::: {{custom-style="2_Текст штампа"}}\n{subtitle.strip()}\n:::')
+    if include_toc:
+        parts.append(_OOXML_TOC_FIELD.strip())
+    return "\n\n".join(parts)
+
 
 def convert_via_pandoc(
     markdown_text: str,
@@ -516,9 +561,7 @@ def convert_via_pandoc(
     source_dir: str,
     mermaid_dir: str,
     metadata: dict[str, str],
-    include_toc: bool = False,
-    toc_depth: int = 3,
-    page_break_after_front_matter: bool = False,
+    front_matter_markdown: str = "",
 ) -> io.BytesIO:
     """Run pandoc to convert markdown to DOCX. Returns BytesIO of the docx content.
 
@@ -528,21 +571,21 @@ def convert_via_pandoc(
     """
     _ensure_pandoc()
 
-    if page_break_after_front_matter:
-        # Pandoc auto-inserts the --toc block (and the title/subtitle from
-        # --metadata) *before* the body content regardless of where this
-        # marker sits in markdown_text, so prepending it here lands the
-        # break right after title+TOC, separating them from chapter 1 —
-        # confirmed by inspecting the generated document.xml byte offsets.
-        markdown_text = _OOXML_PAGE_BREAK + markdown_text
+    if front_matter_markdown:
+        # A page break always follows the front matter (title/TOC), never
+        # the reverse — otherwise title/TOC would render on the same page
+        # as chapter 1 with no visual separation (the original bug this
+        # was built to fix).
+        markdown_text = front_matter_markdown + _OOXML_PAGE_BREAK + markdown_text
 
     # `+footnotes` enables Pandoc's Markdown footnote syntax ([^1] / [^1]: ...)
     # on top of GFM — without it, footnote markers pass through as literal
     # text instead of becoming real Word footnotes. GFM alone doesn't include
     # this extension (it's Pandoc's own Markdown dialect feature, not GitHub's).
     # `+raw_attribute` enables the ```{=openxml} ... ``` raw-block syntax used
-    # above for page breaks.
-    pandoc_format = "gfm+footnotes+raw_html+raw_attribute"
+    # above for page breaks/TOC. `+fenced_divs` enables the `::: {...}` Div
+    # syntax used for custom-style title-page paragraphs.
+    pandoc_format = "gfm+footnotes+raw_html+raw_attribute+fenced_divs"
 
     # Combine reference-docx dir and mermaid temp dir in resource-path
     resource_path = source_dir
@@ -555,9 +598,6 @@ def convert_via_pandoc(
         "--reference-doc", reference_docx,
         "--resource-path", resource_path,
     ]
-
-    if include_toc:
-        extra_args.extend(["--toc", f"--toc-depth={toc_depth}"])
 
     for key, value in metadata.items():
         extra_args.extend(["--metadata", f"{key}={value}"])
@@ -930,17 +970,17 @@ class Md2DocxTool(Tool):
                 parameters.get("body_font"),
                 parse_pt(parameters.get("body_size_pt")),
                 parse_spacing(parameters.get("line_spacing")),
-                document_title=raw_title if include_title_page else None,
-                subtitle=subtitle if include_title_page else None,
             )
 
             # Convert via pandoc
             stage = "pandoc_conversion"
             source_dir = os.path.dirname(reference_docx)
+            front_matter_markdown = build_front_matter_markdown(
+                raw_title, subtitle, include_title_page, include_toc
+            )
             docx_io = convert_via_pandoc(
                 processed_md, reference_docx, source_dir, mermaid_dir, metadata,
-                include_toc=include_toc,
-                page_break_after_front_matter=include_title_page or include_toc,
+                front_matter_markdown=front_matter_markdown,
             )
 
             # Apply style overrides

@@ -1,4 +1,4 @@
-version: "0.0.4"
+version: "0.0.5"
 type: plugin
 author: "arkady"
 name: "md2docx"
@@ -52,7 +52,7 @@ plugins:
     - "provider/md2docx.yaml"
 
 meta:
-  version: "0.0.4"
+  version: "0.0.5"
   arch:
     - "amd64"
     - "arm64"

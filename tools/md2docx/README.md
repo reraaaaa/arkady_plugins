@@ -45,6 +45,12 @@ conversion itself.
 baked into `multi-templates/reference_gost.docx` — Pandoc copies paragraph formatting
 from the reference document, so this isn't a style-override parameter.
 
+The `gost` title page uses two custom paragraph styles baked into the reference
+document (`2_Название документа`, `2_Текст штампа`) — copied from a real corporate
+GOST-style policy template — rather than Pandoc's generic built-in "Title"/"Subtitle"
+styles. The Table of Contents is also built manually (not via Pandoc's `--toc` flag)
+so it's guaranteed to render *after* the title page, not before it.
+
 ## Parameters
 
 ### Markdown to DOCX (9)
