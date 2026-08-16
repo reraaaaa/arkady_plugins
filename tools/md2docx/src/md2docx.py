@@ -546,11 +546,17 @@ def build_front_matter_markdown(
     reference-doc can carry the exact look of a real corporate template.
     """
     parts: list[str] = []
-    if include_title_page and title and title.strip():
+    has_title_page = include_title_page and bool(title and title.strip())
+    if has_title_page:
         parts.append(f'::: {{custom-style="2_Название документа"}}\n{title.strip()}\n:::')
         if subtitle and subtitle.strip():
             parts.append(f'::: {{custom-style="2_Текст штампа"}}\n{subtitle.strip()}\n:::')
     if include_toc:
+        # Without this, the title page and the TOC land on the same page —
+        # a single small centered line immediately followed by the TOC block
+        # reads as "no title page" rather than a real cover page.
+        if has_title_page:
+            parts.append(_OOXML_PAGE_BREAK.strip())
         parts.append(_OOXML_TOC_FIELD.strip())
     return "\n\n".join(parts)
 
