@@ -1,0 +1,29 @@
+meta:
+  arch:
+    - amd64
+    - arm64
+  runner:
+    entrypoint: main
+    language: python
+    version: '3.12'
+  version: 0.0.1
+author: cyberai-vector
+created_at: '2026-08-17T00:00:00.000000000-00:00'
+description:
+  en_US: Chat models via Yandex AI Studio (OpenAI-compatible REST, custom Api-Key auth).
+  ru_RU: Текстовые модели через Yandex AI Studio (OpenAI-совместимый REST, своя схема авторизации Api-Key).
+icon: icon.svg
+label:
+  en_US: Yandex AI Studio
+  ru_RU: Yandex AI Studio
+name: yandex_ai_studio
+plugins:
+  models:
+    - provider/yandex_ai_studio.yaml
+resource:
+  memory: 268435456
+  permission:
+    model:
+      enabled: false
+type: plugin
+version: 0.0.1

@@ -1,0 +1,28 @@
+# Каталог/pricing — см. yandexgpt-5.1.yaml (тот же источник и оговорки).
+model: qwen3-235b-a22b-fp8
+label:
+  en_US: Qwen3 235B
+  ru_RU: Qwen3 235B
+model_type: llm
+features:
+  - tool-call
+  - stream-tool-call
+model_properties:
+  mode: chat
+  context_size: 262144
+parameter_rules:
+  - name: temperature
+    use_template: temperature
+  - name: max_tokens
+    use_template: max_tokens
+    required: true
+    default: 4096
+    min: 1
+    max: 262144
+  - name: response_format
+    use_template: response_format
+pricing:
+  input: '0'
+  output: '0'
+  unit: '0.000001'
+  currency: RUB

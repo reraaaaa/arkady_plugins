@@ -1,0 +1,178 @@
+background: '#FFF5EE'
+configurate_methods:
+  - predefined-model
+  - customizable-model
+description:
+  en_US: Chat models via Yandex AI Studio — OpenAI-compatible REST (own Api-Key auth scheme, model addressed as gpt://<folder_id>/<model>).
+  ru_RU: Текстовые модели через Yandex AI Studio — OpenAI-совместимый REST (своя схема авторизации Api-Key, модель адресуется как gpt://<folder_id>/<model>).
+extra:
+  python:
+    model_sources:
+      - models/llm/llm.py
+    provider_source: provider/yandex_ai_studio.py
+help:
+  title:
+    en_US: Get your API key and folder ID from Yandex Cloud console
+    ru_RU: Получите API-ключ и folder ID в консоли Yandex Cloud
+  url:
+    en_US: https://aistudio.yandex.ru
+icon_small:
+  en_US: icon.svg
+label:
+  en_US: Yandex AI Studio
+  ru_RU: Yandex AI Studio
+model_credential_schema:
+  model:
+    label:
+      en_US: Model Name
+      ru_RU: Название модели
+    placeholder:
+      en_US: e.g. yandexgpt-5.1 or a full gpt://<folder_id>/<model> URI
+      ru_RU: напр. yandexgpt-5.1, либо готовый URI gpt://<folder_id>/<model>
+  credential_form_schemas:
+    - variable: api_key
+      label:
+        en_US: API Key
+        ru_RU: API-ключ
+      type: secret-input
+      required: true
+      placeholder:
+        en_US: Yandex Cloud static API key
+        ru_RU: Статический API-ключ Yandex Cloud
+    - variable: folder_id
+      label:
+        en_US: Folder ID
+        ru_RU: Folder ID
+      type: text-input
+      required: true
+      placeholder:
+        en_US: Yandex Cloud folder ID (used to build gpt://<folder_id>/<model>)
+        ru_RU: Folder ID каталога Yandex Cloud (нужен, чтобы собрать gpt://<folder_id>/<model>)
+    - variable: endpoint_url
+      label:
+        en_US: API Base URL
+        ru_RU: Базовый URL API
+      type: text-input
+      required: false
+      default: https://llm.api.cloud.yandex.net/v1
+      placeholder:
+        en_US: https://llm.api.cloud.yandex.net/v1
+        ru_RU: https://llm.api.cloud.yandex.net/v1
+    - variable: context_size
+      label:
+        en_US: Model context size
+        ru_RU: Размер контекста модели
+      type: text-input
+      required: true
+      default: "32768"
+      show_on:
+        - variable: __model_type
+          value: llm
+    - variable: max_tokens_to_sample
+      label:
+        en_US: Upper bound for max tokens
+        ru_RU: Верхняя граница max tokens
+      type: text-input
+      required: false
+      default: "8192"
+      show_on:
+        - variable: __model_type
+          value: llm
+    - variable: function_calling_type
+      label:
+        en_US: Function Call Type
+        ru_RU: Тип вызова функций
+      type: select
+      required: false
+      default: tool_call
+      show_on:
+        - variable: __model_type
+          value: llm
+      options:
+        - value: tool_call
+          label:
+            en_US: Tool Call
+            ru_RU: Tool Call
+        - value: no_call
+          label:
+            en_US: Not Support
+            ru_RU: Не поддерживается
+    - variable: stream_function_calling
+      label:
+        en_US: Stream function calling
+        ru_RU: Потоковый вызов функций
+      type: select
+      required: false
+      default: supported
+      show_on:
+        - variable: __model_type
+          value: llm
+      options:
+        - value: supported
+          label:
+            en_US: Support
+            ru_RU: Поддерживается
+        - value: not_supported
+          label:
+            en_US: Not Support
+            ru_RU: Не поддерживается
+    - variable: user_identity_support
+      label:
+        en_US: User Identity Support
+        ru_RU: Поддержка параметра user
+      type: select
+      required: false
+      default: no_support
+      show_on:
+        - variable: __model_type
+          value: llm
+      help:
+        en_US: Not verified against live Yandex AI Studio docs (captcha-blocked) — defaults to omitting the optional "user" field to be safe.
+        ru_RU: Не проверено по живой доке Yandex AI Studio (блокирует капчей) — по умолчанию поле "user" не отправляется, для безопасности.
+      options:
+        - value: support
+          label:
+            en_US: Support
+            ru_RU: Поддерживается
+        - value: no_support
+          label:
+            en_US: Not Support
+            ru_RU: Не поддерживается
+models:
+  llm:
+    position: models/llm/_position.yaml
+    predefined:
+      - models/llm/*.yaml
+provider: yandex_ai_studio
+provider_credential_schema:
+  credential_form_schemas:
+    - variable: api_key
+      label:
+        en_US: API Key
+        ru_RU: API-ключ
+      type: secret-input
+      required: true
+      placeholder:
+        en_US: Yandex Cloud static API key
+        ru_RU: Статический API-ключ Yandex Cloud
+    - variable: folder_id
+      label:
+        en_US: Folder ID
+        ru_RU: Folder ID
+      type: text-input
+      required: true
+      placeholder:
+        en_US: Yandex Cloud folder ID (used to build gpt://<folder_id>/<model>)
+        ru_RU: Folder ID каталога Yandex Cloud (нужен, чтобы собрать gpt://<folder_id>/<model>)
+    - variable: endpoint_url
+      label:
+        en_US: API Base URL
+        ru_RU: Базовый URL API
+      type: text-input
+      required: false
+      default: https://llm.api.cloud.yandex.net/v1
+      placeholder:
+        en_US: https://llm.api.cloud.yandex.net/v1
+        ru_RU: https://llm.api.cloud.yandex.net/v1
+supported_model_types:
+  - llm
