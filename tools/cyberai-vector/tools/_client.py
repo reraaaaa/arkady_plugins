@@ -13,7 +13,14 @@ class CyberAIError(Exception):
     pass
 
 
-def search(base_url: str, path: str, query: str, top_k: int) -> list[dict]:
+def _auth_headers(token: str | None) -> dict[str, str]:
+    # api.py пропускает проверку токена целиком, когда CYBERAI_API_TOKEN на
+    # его стороне пуст (офлайн-дев-режим) — заголовок в этом случае неважен,
+    # но если токен настроен, без Authorization отдаст 403.
+    return {"Authorization": f"Bearer {token}"} if token else {}
+
+
+def search(base_url: str, path: str, query: str, top_k: int, token: str | None = None) -> list[dict]:
     """POST на /retrieval или /bestpractices/retrieval → сырые записи с metadata."""
     try:
         resp = requests.post(
@@ -23,6 +30,7 @@ def search(base_url: str, path: str, query: str, top_k: int) -> list[dict]:
                 "query": query,
                 "retrieval_setting": {"top_k": top_k, "score_threshold": 0.0},
             },
+            headers=_auth_headers(token),
             # 30с не хватало на холодный старт cyberai-vector (первый запрос
             # после рестарта контейнера грузит BGE-M3 в память) — до 180с.
             timeout=180,
@@ -33,7 +41,9 @@ def search(base_url: str, path: str, query: str, top_k: int) -> list[dict]:
     return resp.json().get("records", [])
 
 
-def fetch_answer_prompt(base_url: str, query: str, top_k: int) -> tuple[str | None, str | None]:
+def fetch_answer_prompt(
+    base_url: str, query: str, top_k: int, token: str | None = None
+) -> tuple[str | None, str | None]:
     """POST на /answer/prompt → (prompt, short_circuit_answer).
 
     api.py делает только retrieve (BGE-M3/reranker/Qdrant) и собирает текст
@@ -46,6 +56,7 @@ def fetch_answer_prompt(base_url: str, query: str, top_k: int) -> tuple[str | No
         resp = requests.post(
             f"{base_url}/answer/prompt",
             json={"query": query, "top_k": top_k},
+            headers=_auth_headers(token),
             # 30с не хватало на холодный старт cyberai-vector (первый запрос
             # после рестарта контейнера грузит BGE-M3 в память) — до 180с.
             timeout=180,

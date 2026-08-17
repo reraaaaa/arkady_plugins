@@ -1,7 +1,7 @@
 ## cyberai-vector
 
 **Author:** cyberai-vector
-**Version:** 0.0.5
+**Version:** 0.0.6
 **Type:** tool
 
 ### Description
@@ -20,6 +20,10 @@ Qdrant search (BGE-M3 dense+sparse) with a cross-encoder reranker.
    - **Base URL** — where `api.py` is reachable. From Arkady running in
      Docker on the same machine as `api.py`: `http://host.docker.internal:8001`.
      On the production server layout: `http://10.198.96.180:8001`.
+   - **API Token** (optional) — only needed if `CYBERAI_API_TOKEN` is set on
+     the `api.py` side. Empty on both ends = offline dev mode, no auth check.
+     If `api.py` has a token configured and this field is left empty, every
+     call fails with 403.
 
 ### Usage
 

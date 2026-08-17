@@ -1,4 +1,4 @@
-version: 0.0.5
+version: 0.0.6
 type: plugin
 author: cyberai-vector
 name: cyberai-vector
@@ -17,7 +17,7 @@ plugins:
   tools:
     - provider/cyberai-vector.yaml
 meta:
-  version: 0.0.5
+  version: 0.0.6
   arch:
     - amd64
     - arm64

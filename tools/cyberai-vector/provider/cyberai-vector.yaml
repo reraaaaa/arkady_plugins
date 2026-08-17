@@ -17,6 +17,15 @@ credentials_for_provider:
       en_US: "http://host.docker.internal:8001"
     help:
       en_US: "Адрес сервиса CyberAI Vector (api.py) — локально http://host.docker.internal:8001, в проде http://10.198.96.180:8001. Без завершающего слэша."
+  api_token:
+    type: secret-input
+    required: false
+    label:
+      en_US: "API Token"
+      ru_RU: "API-токен"
+    help:
+      en_US: "Bearer-токен, если на CyberAI Vector задан CYBERAI_API_TOKEN. Пусто = офлайн-дев-режим без проверки (api.py пропускает авторизацию, если токен на его стороне не задан)."
+      ru_RU: "Bearer-токен, если на CyberAI Vector задан CYBERAI_API_TOKEN. Пусто = офлайн-дев-режим без проверки (api.py пропускает авторизацию, если токен на его стороне не задан)."
 
 tools:
   - tools/search_npa.yaml

@@ -1,6 +1,6 @@
 [project]
 name = "cyberai-vector"
-version = "0.0.4"
+version = "0.0.6"
 requires-python = ">=3.12"
 dependencies = [
     "arkady_plugin>=0.10.0",

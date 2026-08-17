@@ -14,9 +14,10 @@ class SearchNpaTool(Tool):
             yield self.create_text_message("Пустой запрос.")
             return
         base_url = (self.runtime.credentials.get("base_url") or "").rstrip("/")
+        token = self.runtime.credentials.get("api_token") or None
         top_k = int(tool_parameters.get("top_k") or 6)
         try:
-            records = search(base_url, "/retrieval", query, top_k)
+            records = search(base_url, "/retrieval", query, top_k, token)
         except CyberAIError as e:
             yield self.create_text_message(str(e))
             return
