@@ -49,7 +49,7 @@ version = "0.3.26"
 source = { virtual = "." }
 dependencies = [
     { name = "anthropic" },
-    { name = "arkady-plugin" },
+    { name = "arkady-plugin-sdk" },
     { name = "httpx" },
     { name = "pillow" },
     { name = "requests" },
@@ -64,7 +64,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "anthropic", specifier = ">=0.120.0" },
-    { name = "arkady-plugin", specifier = ">=0.10.3,<0.11.0" },
+    { name = "arkady-plugin-sdk", specifier = ">=0.10.4" },
     { name = "httpx", specifier = ">=0.28.1" },
     { name = "pillow", specifier = ">=12.3.0" },
     { name = "requests", specifier = ">=2.34.2" },
@@ -77,8 +77,8 @@ dev = [
 ]
 
 [[package]]
-name = "arkady-plugin"
-version = "0.10.3"
+name = "arkady-plugin-sdk"
+version = "0.10.4"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "flask" },
@@ -95,9 +95,9 @@ dependencies = [
     { name = "werkzeug" },
     { name = "yarl" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/fe/14/f5b1f956641193ace9dc69d08a8432be5bc235475e7f1ca591c7d65260d6/arkady_plugin-0.10.3.tar.gz", hash = "sha256:5fd2025952f98041cf1d653a06d57b9285ed0a98ae794164efe902890d2f0711", size = 321393, upload-time = "2026-08-13T13:34:40.677Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/6c/ab/63b063419c08b409658c156e3e3a347f04b6cd65f18249bb8ea65ba20630/arkady_plugin_sdk-0.10.4.tar.gz", hash = "sha256:f280c10ae35a39594a1d500d83bf662f51b59908a5eff067d640550334b23a41", size = 321754, upload-time = "2026-08-20T18:45:15.149Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/9b/58/8876d124f1df5f4477f1b5b3a3d13799bfffcf58c658ea03f34fdb89279f/arkady_plugin-0.10.3-py3-none-any.whl", hash = "sha256:a8ed1cff7f98b598e8b7fcb0fd59899da0d716d39f7f93beceef65ef67877c14", size = 380754, upload-time = "2026-08-13T13:34:39.425Z" },
+    { url = "https://files.pythonhosted.org/packages/25/a2/232ad298457dfbd5f63a19ce11febd2dd9854151c596068c660502750490/arkady_plugin_sdk-0.10.4-py3-none-any.whl", hash = "sha256:ffd798da66ecb708e0b52039e954651563de892415e807a6d14d65355b2bde1c", size = 381004, upload-time = "2026-08-20T18:45:13.79Z" },
 ]
 
 [[package]]
