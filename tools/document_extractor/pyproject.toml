@@ -7,7 +7,7 @@ requires-python = ">=3.12"
 
 # Managed with uv; refresh the lockfile with `uv lock`.
 dependencies = [
-    "arkady-plugin>=0.10.3,<0.11.0",
+    "arkady-plugin-sdk>=0.10.4",
     "chardet>=7.4.3",
     "python-docx>=1.2.0",
     "python-pptx>=1.0.2",
