@@ -1,4 +1,11 @@
 # Каталог/pricing — см. yandexgpt-5.1.yaml (тот же источник и оговорки).
+# vision подтверждена эмпирически 2026-08-17: прямой запрос с image_url
+# (base64 PNG) через живой ключ дал реальный анализ картинки в
+# reasoning_content/content ("Чёрный"), в отличие от остальных 8 моделей
+# каталога — те либо честно отвечали "не вижу изображение", либо падали
+# структурной ошибкой ("is not a multimodal model" у qwen3-235b-a22b-fp8).
+# Доки на aistudio.yandex.ru блокируют капчей — источник истины тут
+# только живой тест, не сайт/SDK-репозиторий (там тоже нет каталога).
 model: qwen3.6-35b-a3b
 label:
   en_US: Qwen3.6 35B
@@ -7,6 +14,7 @@ model_type: llm
 features:
   - tool-call
   - stream-tool-call
+  - vision
 model_properties:
   mode: chat
   context_size: 262144
