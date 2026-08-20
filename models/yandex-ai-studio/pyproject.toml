@@ -7,7 +7,7 @@ requires-python = ">=3.12"
 
 # Refresh the lockfile with: uv lock
 dependencies = [
-    "arkady_plugin>=0.10.0",
+    "arkady-plugin-sdk>=0.10.4",
     "requests>=2.34.2",
     "tiktoken>=0.13.0",
 ]

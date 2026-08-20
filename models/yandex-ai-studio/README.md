@@ -7,6 +7,8 @@
 
 Только LLM (чат-модели). Embeddings/rerank/tts/speech2text и генерация изображений (`art://…`) — вне охвата этого плагина: в CyberAI Vector уже своя эмбеддинг-модель (BGE-M3, dense+sparse), а под остальное отдельного запроса не было.
 
+**Почему именно OpenAI-совместимый эндпоинт, а не «родной» gRPC/REST Foundation Models API Yandex** — у Yandex Cloud два параллельных API-поверхности с разной полнотой фич (см. `github.com/yandex-cloud/cloudapi`, `yandex/cloud/ai/foundation_models/v1/text_generation/text_generation_service.proto`): в специализированном API поле `tools` в `CompletionRequest` присутствует в схеме, но explicitly помечено как **`unsupported, ignored`** — tool-calling там не поддерживается вообще. OpenAI-совместимый `/v1/chat/completions`, которым пользуется этот плагин, tool-calling поддерживает и был проверен живым ключом (см. ниже) — это не совпадение, а причина выбора именно этого эндпоинта.
+
 ## Источники
 
 Официальная документация (`aistudio.yandex.ru`) на момент написания **блокирует ботов капчей** — ни `WebFetch`, ни прямой `curl` с браузерным `User-Agent` её не проходят. Технические детали (base URL, схема авторизации, формат model URI) взяты из исходников официального Python SDK: [`github.com/yandex-cloud/yandex-ai-studio-sdk`](https://github.com/yandex-cloud/yandex-ai-studio-sdk) (`_utils/http.py`, `_auth.py`, `_chat/base_function.py`).
