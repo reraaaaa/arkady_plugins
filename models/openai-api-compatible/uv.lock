@@ -29,7 +29,7 @@ name = "arkady-openai-api-compatible"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
-    { name = "arkady-plugin" },
+    { name = "arkady-plugin-sdk" },
     { name = "httpx" },
     { name = "openai" },
     { name = "pydantic-settings" },
@@ -47,7 +47,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "arkady-plugin", specifier = ">=0.10.0" },
+    { name = "arkady-plugin-sdk", specifier = ">=0.10.4" },
     { name = "httpx", specifier = ">=0.28.1" },
     { name = "openai", specifier = ">=2.38.0" },
     { name = "pydantic-settings", specifier = "<2.15.0" },
@@ -64,8 +64,8 @@ dev = [
 ]
 
 [[package]]
-name = "arkady-plugin"
-version = "0.10.2"
+name = "arkady-plugin-sdk"
+version = "0.10.4"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "flask" },
@@ -82,9 +82,9 @@ dependencies = [
     { name = "werkzeug" },
     { name = "yarl" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/56/7d/43fe3414ac225d0f79e1c7bc0c3e5a29ba263a16a8009d3f83ea5364e7f0/arkady_plugin-0.10.2.tar.gz", hash = "sha256:c8df14c01c3b6e7f7ccc4f16335311fcdcfeada5db9fd49df85d8616de93a661", size = 320609, upload-time = "2026-08-05T21:17:47.641Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/6c/ab/63b063419c08b409658c156e3e3a347f04b6cd65f18249bb8ea65ba20630/arkady_plugin_sdk-0.10.4.tar.gz", hash = "sha256:f280c10ae35a39594a1d500d83bf662f51b59908a5eff067d640550334b23a41", size = 321754, upload-time = "2026-08-20T18:45:15.149Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/ba/6b/88572f3bf8d7a4df8d29bc386cb522ad91db5692ebb486eafafa25742454/arkady_plugin-0.10.2-py3-none-any.whl", hash = "sha256:a3165b97a949f7375db672b1538c6e9291b4149ba4dadb63ca5d53b1b9b76440", size = 380094, upload-time = "2026-08-05T21:17:45.534Z" },
+    { url = "https://files.pythonhosted.org/packages/25/a2/232ad298457dfbd5f63a19ce11febd2dd9854151c596068c660502750490/arkady_plugin_sdk-0.10.4-py3-none-any.whl", hash = "sha256:ffd798da66ecb708e0b52039e954651563de892415e807a6d14d65355b2bde1c", size = 381004, upload-time = "2026-08-20T18:45:13.79Z" },
 ]
 
 [[package]]
