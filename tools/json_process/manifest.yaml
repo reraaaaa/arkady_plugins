@@ -4,11 +4,13 @@ description:
   en_US: Tools for processing JSON content using jsonpath_ng
   pt_BR: Tools for processing JSON content using jsonpath_ng
   zh_Hans: 利用 jsonpath_ng 处理 JSON 内容的工具
+  ru_RU: Инструменты для обработки JSON-контента на базе jsonpath_ng
 icon: icon.svg
 label:
   en_US: JSON Process
   pt_BR: JSON Process
   zh_Hans: JSON 处理
+  ru_RU: JSON Process
 meta:
   arch:
   - amd64
@@ -33,4 +35,4 @@ resource:
 tags:
 - utilities
 type: plugin
-version: 0.0.7
+version: 0.0.8
