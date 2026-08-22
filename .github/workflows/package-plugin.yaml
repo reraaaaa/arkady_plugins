@@ -3,6 +3,7 @@ name: Package and Sign Plugin
 on:
   release:
     types: [published]
+  workflow_dispatch: {}
 
 permissions:
   contents: write
@@ -12,7 +13,9 @@ jobs:
     # catalog-latest is the rolling release the generate-catalog job below
     # publishes to - publishing it fires this same release:published trigger
     # right back at us, and that tag doesn't match <plugin_name>-v<version>.
-    if: github.event.release.tag_name != 'catalog-latest'
+    # Skip cleanly on workflow_dispatch too (manual test runs of
+    # generate-catalog, no release context to package from).
+    if: github.event_name == 'release' && github.event.release.tag_name != 'catalog-latest'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -86,6 +89,11 @@ jobs:
 
   generate-catalog:
     needs: package
+    # Runs after a successful package, or on a manual workflow_dispatch test
+    # run (where package skips itself - see its own `if:` above).
+    if: |
+      always() &&
+      (github.event_name == 'workflow_dispatch' || needs.package.result == 'success')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
