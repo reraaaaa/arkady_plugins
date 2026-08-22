@@ -4,12 +4,14 @@ description:
   en_US: Q&A chunking processor.
   pt_BR: Q&A chunking processor.
   zh_Hans: Q&A 分块处理器。
+  ru_RU: Процессор чанкинга в формате «вопрос-ответ».
 
 icon: icon.svg
 label:
   en_US: Q&A Processor
   pt_BR: Q&A Processor
   zh_Hans: Q&A 处理器
+  ru_RU: Q&A Processor
 meta:
   arch:
   - amd64
@@ -36,4 +38,4 @@ tags:
   - utilities
   - rag
 type: plugin
-version: 0.0.14
+version: 0.0.15
