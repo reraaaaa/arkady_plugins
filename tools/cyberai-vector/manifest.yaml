@@ -1,11 +1,13 @@
-version: 0.0.8
+version: 0.0.9
 type: plugin
 author: cyberai-vector
 name: cyberai-vector
 label:
   en_US: CyberAI Vector
+  ru_RU: CyberAI Vector
 description:
   en_US: Поиск и RAG-ответы по НПА РФ (ИБ) и лучшим практикам ИБ из CyberAI Vector
+  ru_RU: Поиск и RAG-ответы по НПА РФ (ИБ) и лучшим практикам ИБ из CyberAI Vector
 icon: icon.svg
 icon_dark: icon-dark.svg
 resource:
