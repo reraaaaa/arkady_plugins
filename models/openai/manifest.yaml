@@ -1,12 +1,14 @@
-version: 1.0.4
+version: 1.0.5
 type: plugin
 author: arkady
 name: "openai"
 description:
   en_US: Current OpenAI language, embedding, moderation, and audio models.
   zh_Hans: OpenAI 当前的语言、嵌入、内容审核与音频模型。
+  ru_RU: Актуальные языковые, эмбеддинговые, модерационные и аудио-модели OpenAI.
 label:
   en_US: "OpenAI"
+  ru_RU: "OpenAI"
 created_at: "2024-07-12T08:03:44.658609186Z"
 icon: icon_s_en.svg
 resource:
