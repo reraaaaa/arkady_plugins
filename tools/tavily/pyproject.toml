@@ -1,0 +1,16 @@
+[project]
+name = "arkady-tavily"
+version = "0.1.11"
+description = "A powerful AI-native search engine and web content extraction tool for Arkady"
+readme = "README.md"
+requires-python = ">=3.12"
+
+dependencies = [
+    "arkady-plugin-sdk>=0.10.4",
+    "requests>=2.34.2",
+    "tavily-python>=0.7.24",
+]
+
+# uv run black . -C -l 100 && uv run ruff check --fix
+[dependency-groups]
+dev = []
