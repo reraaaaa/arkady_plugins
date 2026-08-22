@@ -109,6 +109,13 @@ def build_entry(release: dict, name: str, version: str) -> dict | None:
 
 def main() -> None:
     releases = list_releases()
+    # GitHub's /releases listing order isn't reliably newest-first when many
+    # releases get created in a tight burst (observed empirically: releases
+    # created seconds apart came back interleaved, not descending) - the
+    # dedup loop below keeps whichever release it sees FIRST per plugin
+    # name, so an unsorted list can silently keep a stale release instead
+    # of the one that was actually just published.
+    releases.sort(key=lambda r: r["published_at"], reverse=True)
     seen_names: set[str] = set()
     plugins: list[dict] = []
 
