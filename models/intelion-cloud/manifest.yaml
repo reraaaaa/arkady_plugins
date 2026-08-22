@@ -12,7 +12,7 @@ created_at: '2026-07-29T00:00:00.000000000-00:00'
 description:
   en_US: Claude models via Intelion Cloud (Anthropic-compatible gateway).
   ru_RU: Модели Claude через шлюз Intelion Cloud (Anthropic-совместимый).
-icon: icon_s_en.svg
+icon: icon.png
 label:
   en_US: Intelion Cloud
   ru_RU: Intelion Cloud
@@ -26,4 +26,4 @@ resource:
     model:
       enabled: false
 type: plugin
-version: 0.0.2
+version: 0.0.3
