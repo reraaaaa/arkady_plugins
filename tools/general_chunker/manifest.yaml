@@ -4,12 +4,14 @@ description:
   en_US: General text chunking mode, the chunks retrieved and recalled are the same.
   pt_BR: General text chunking mode, the chunks retrieved and recalled are the same.
   zh_Hans: 通用文本分块模式，检索和召回的块是相同的。
+  ru_RU: Обычный режим чанкинга текста — извлекаемые и возвращаемые чанки совпадают.
 
 icon: icon.svg
 label:
   en_US: General Chunker
   pt_BR: General Chunker
   zh_Hans: 通用文本分块
+  ru_RU: General Chunker
 meta:
   arch:
   - amd64
@@ -35,4 +37,4 @@ resource:
 tags: 
   - rag
 type: plugin
-version: 0.0.14
+version: 0.0.15
