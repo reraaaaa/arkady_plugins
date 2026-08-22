@@ -1,4 +1,4 @@
-version: 0.1.2
+version: 0.1.3
 type: plugin
 author: arkady
 name: document_extractor
@@ -7,11 +7,13 @@ label:
   ja_JP: Document Extractor
   zh_Hans: 文档提取器
   pt_BR: Document Extractor
+  ru_RU: Document Extractor
 description:
   en_US: Document Extractor
   ja_JP: Document Extractor
   zh_Hans: Document Extractor
   pt_BR: Document Extractor
+  ru_RU: Извлечение документов в Markdown и структурированные записи для RAG
 icon: icon.svg
 resource:
   memory: 268435456
