@@ -1,0 +1,25 @@
+[project]
+name = "arkady-openai"
+version = "1.0.4"
+description = "OpenAI models for Arkady"
+readme = "README.md"
+requires-python = ">=3.12"
+# Managed with uv; refresh the lockfile with `uv lock`.
+dependencies = [
+    # 0.10.0 introduces get_current_session(), required to resolve the
+    # current Arkady app_id for OpenAI request metadata.
+    "arkady-plugin-sdk>=0.10.4",
+    "openai>=2.45.0",
+    "tiktoken>=0.13.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.2",
+    "pytest-mock>=3.15.1",
+]
+
+[tool.pytest.ini_options]
+markers = [
+    "live: sends billable requests to the real OpenAI API",
+]
