@@ -1,4 +1,4 @@
-version: 0.0.15
+version: 0.0.16
 type: plugin
 author: arkady
 name: parentchild_chunker
@@ -7,11 +7,13 @@ label:
   ja_JP: Parent-child Chunker
   zh_Hans: 父子文本分块
   pt_BR: Parent-child Chunker
+  ru_RU: Parent-child Chunker
 description:
   en_US: Parent-child Chunk Structure
   ja_JP: Parent-child Chunk Structure
   zh_Hans: Parent-child Chunk Structure
   pt_BR: Parent-child Chunk Structure
+  ru_RU: Родитель-дочерняя структура чанков
 icon: icon.svg
 resource:
   memory: 268435456
