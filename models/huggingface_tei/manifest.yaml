@@ -11,9 +11,11 @@ name: huggingface_tei
 author: arkady
 label:
   en_US: Text Embedding Inference
+  ru_RU: Text Embedding Inference
 description:
   en_US: A blazing fast inference solution for text embeddings models.
   zh_Hans: 用于文本嵌入模型的超快速推理解决方案。
+  ru_RU: Молниеносно быстрое решение для инференса моделей текстовых эмбеддингов.
 icon: icon_s_en.svg
 created_at: '2024-09-20T00:13:50.29298939-04:00'
 plugins:
@@ -27,4 +29,4 @@ resource:
     tool:
       enabled: false
 type: plugin
-version: 0.1.11
+version: 0.1.12
