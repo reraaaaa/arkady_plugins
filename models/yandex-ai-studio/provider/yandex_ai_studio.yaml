@@ -138,6 +138,46 @@ model_credential_schema:
           label:
             en_US: Not Support
             ru_RU: Не поддерживается
+    - variable: api_mode
+      label:
+        en_US: API
+        ru_RU: API
+      type: select
+      required: false
+      default: chat_completions
+      show_on:
+        - variable: __model_type
+          value: llm
+      help:
+        en_US: >-
+          "Chat Completions" (default) — proven path via {endpoint_url}/chat/completions.
+          "Responses API" — Yandex's own agent-oriented API
+          (rest-assistant.api.cloud.yandex.net/v1/responses); tried because this
+          model sometimes narrates an intended tool call as plain text
+          ("[search_npa] query...") instead of a real tool_call under Chat
+          Completions with tool_choice=auto — not confirmed to fix it (40+
+          offline runs reproduced the same rate of narration on both APIs),
+          kept switchable so it can be compared on live traffic without a
+          plugin reinstall.
+        ru_RU: >-
+          "Chat Completions" (по умолчанию) — проверенный путь через
+          {endpoint_url}/chat/completions. "Responses API" — родной агентский
+          API Yandex (rest-assistant.api.cloud.yandex.net/v1/responses);
+          опробован из-за того, что модель иногда описывает намерение
+          вызвать инструмент текстом ("[search_npa] запрос...") вместо
+          настоящего tool_call при Chat Completions с tool_choice=auto — не
+          подтверждено, что чинит это (40+ офлайн-прогонов дали одинаковую
+          частоту "нарратива" на обоих API), оставлено переключаемым, чтобы
+          сравнить на живом трафике без переустановки плагина.
+      options:
+        - value: chat_completions
+          label:
+            en_US: Chat Completions
+            ru_RU: Chat Completions
+        - value: responses_api
+          label:
+            en_US: Responses API
+            ru_RU: Responses API
 models:
   llm:
     position: models/llm/_position.yaml
@@ -174,5 +214,32 @@ provider_credential_schema:
       placeholder:
         en_US: https://llm.api.cloud.yandex.net/v1
         ru_RU: https://llm.api.cloud.yandex.net/v1
+    - variable: api_mode
+      label:
+        en_US: API
+        ru_RU: API
+      type: select
+      required: false
+      default: chat_completions
+      help:
+        en_US: >-
+          "Chat Completions" (default) — proven path. "Responses API" —
+          Yandex's own agent-oriented API, opt-in for comparing tool-calling
+          reliability on live traffic. See the same field under the model's
+          own credentials for the full rationale.
+        ru_RU: >-
+          "Chat Completions" (по умолчанию) — проверенный путь. "Responses
+          API" — родной агентский API Yandex, опционально для сравнения
+          надёжности function calling на живом трафике. Полное обоснование —
+          в этом же поле в настройках credentials модели.
+      options:
+        - value: chat_completions
+          label:
+            en_US: Chat Completions
+            ru_RU: Chat Completions
+        - value: responses_api
+          label:
+            en_US: Responses API
+            ru_RU: Responses API
 supported_model_types:
   - llm
