@@ -21,6 +21,31 @@ parameter_rules:
     max: 131072
   - name: response_format
     use_template: response_format
+  - name: tool_choice
+    label:
+      en_US: Tool Choice
+      ru_RU: Выбор инструмента (tool_choice)
+    type: string
+    required: false
+    default: "auto"
+    options:
+      - "auto"
+      - "required"
+    help:
+      en_US: >-
+        "auto" lets the model decide whether to call a tool or answer in
+        plain text — this model sometimes narrates the intended call as
+        text ("[search_npa] query...") instead of a real tool_call.
+        "required" forces an actual tool call on every agent turn, which
+        also defeats prompts that ask the model to request clarification
+        before searching.
+      ru_RU: >-
+        "auto" — модель сама решает, вызывать тул или просто ответить
+        текстом; эта модель иногда вместо реального tool_call описывает
+        намерение текстом ("[search_npa] запрос..."). "required"
+        заставляет модель вызывать тул на каждом шаге агента — это же
+        отключает промпты, которые просят сначала уточнить вопрос, не
+        вызывая тул.
 pricing:
   input: '0'
   output: '0'
